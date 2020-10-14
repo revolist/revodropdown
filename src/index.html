@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+    <style type="text/css">
+    
+      body, html {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f9fc;
+        text-align: center;
+        position: relative;
+      }
+      body {
+        padding: 20px;
+        font-size: 14px;
+      }
+      .tile {
+        background-color: #fff;
+        display: flex;
+        margin: 0 auto;
+        padding: 20px 0;
+        box-shadow: 0 0 14px 0 rgba(53,64,82,.05);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+  
+      .tile.dark {
+        background-color: #333;
+      }
+  
+      .tile.large {
+        width: 800px;
+        height: 500px;
+      }
+
+
+      .tile.small {
+        width: 200px;
+        height: 200px;
+      }
+    </style>
+    <script type="module" src="/build/revo-dropdown.esm.js"></script>
+    <script nomodule src="/build/revo-dropdown.js"></script>
+  </head>
+  <body>
+    <button class="getValBtn">Get value</button>
+    <div class="tile small" style="padding: 20px;">
+      <div>
+        <revo-dropdown data-label="name"></revo-dropdown>
+      </div>
+    </div>
+
+
+    <script type="module">
+      import people from "./temp/people.js";
+      const dropdown = document.querySelector('revo-dropdown');
+      dropdown.source = people;
+
+      const getValBtn = document.querySelector('.getValBtn');
+      getValBtn.addEventListener('click', () => {
+        console.log(dropdown.value);
+      });
+      
+    </script>
+  </body>
+</html>
