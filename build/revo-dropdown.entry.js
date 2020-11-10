@@ -212,7 +212,6 @@ const RevoDropdown = class {
           var _a;
           this.currentFilter = e.value;
           this.currentSource = e.items;
-          console.log(e.items);
           (_a = this.revoList) === null || _a === void 0 ? void 0 : _a.refresh(this.currentSource);
         } }) :
       undefined, h("revo-list", { ref: e => this.revoList = e, isFocused: true, sourceItems: this.currentSource, dataLabel: this.dataLabel, onDoChange: e => this.doChange(e.detail.item, e.detail.e) })));
