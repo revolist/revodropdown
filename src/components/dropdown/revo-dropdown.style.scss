@@ -7,31 +7,146 @@
 }
 
 $border-color: #ececec;
+$border-size: 1px;
+
 $padding: 10px;
+$font-size: 14px;
 
 revo-dropdown {
-  display: block;
   @include fontStyle;
 
-  padding: 0 $padding;
-  border: 1px solid $border-color;
-  border-radius: 5px;
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: top;
+
+  padding: 0;
   box-sizing: border-box;
   cursor: pointer;
+  position: relative;
 
+  .rv-dr-root {
+    padding: 5px 9px;
+    padding-right: 35px;
+    flex-wrap: wrap;
+    position: relative;
+    border-radius: 4px;
+
+    cursor: text;
+    display: inline-flex;
+    position: relative;
+    font-size: 1rem;
+    box-sizing: border-box;
+    align-items: center;
+  }
+
+  input.filter-box {
+    padding-left: 6px;
+    padding: 9.5px 4px;
+    width: 0;
+    min-width: 30px;
+    flex-grow: 1;
+    text-overflow: ellipsis;
+    border: 0;
+    height: 1.1876em;
+    margin: 0;
+    display: block;
+    background: none;
+    box-sizing: content-box;
+    animation-name: mui-auto-fill-cancel;
+    letter-spacing: inherit;
+    animation-duration: 10ms;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .actions {
+    right: 9px;
+    top: calc(50% - $font-size);
+    position: absolute;
+  }
+
+  label {
+    font-size: 1rem;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    position: absolute;
+    display: block;
+    transform-origin: top left;
+    line-height: 1;
+    transition: color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+    transform: translate($font-size, $font-size) scale(1);
+    pointer-events: none;
+  }
+
+  fieldset {
+    border-color: $border-color;
+    top: -5px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0 8px;
+    overflow: hidden;
+    position: absolute;
+    border-style: solid;
+    border-width: $border-size;
+    border-radius: inherit;
+    pointer-events: none;
+
+    legend {
+      width: auto;
+      height: 11px;
+      display: block;
+      padding: 0;
+      font-size: 0.75em;
+      max-width: 0.01px;
+      text-align: left;
+      transition: max-width 50ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+      visibility: hidden;
+
+      > span {
+        display: inline-block;
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+    }
+  }
+
+  &.shrink {
+    label {
+      transform: translate($font-size, -6px) scale(0.75);
+    }
+
+    legend {
+      max-width: 1000px;
+      transition: max-width 100ms cubic-bezier(0.0, 0, 0.2, 1) 50ms;
+    }
+  }
+  
   .arrow {
     width: 9px;
-    float: right;
     margin-top: 5px;
     margin-left: 5px;
     opacity: .4;
   }
 
+  .arrow-wrapper {
+    width: 15px;
+    text-align: center;
+  }
+
   &.active {
     $bg: #0089ff;
-    border-color: $bg;
-    background-color: $bg;
-    color: #fff;
+
+    label {
+      color: $bg;
+    }
+    fieldset {
+      border-color: $bg;
+    }
   }
 }
 
@@ -40,8 +155,9 @@ revo-dropdown {
 
   position: absolute;
   transition: opacity 247ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 165ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  z-index: 999;
 
-  &.top revo-list-filter {
+  &.top .dropdown-inner {
     bottom: 2px;
     flex-direction: column-reverse;
 
@@ -50,7 +166,7 @@ revo-dropdown {
     }
   }
 
-  &:not(.top) revo-list-filter {
+  &:not(.top) .dropdown-inner {
     top: 2px;
     flex-direction: column;
 
@@ -59,7 +175,7 @@ revo-dropdown {
     }
   }
 
-  revo-list-filter {
+ .dropdown-inner {
     display: flex;
     max-height: 100%;
     position: absolute;

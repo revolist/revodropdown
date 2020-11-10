@@ -1,5 +1,5 @@
 {
-  "name": "@revolist/dropdown",
+  "name": "@revolist/revo-dropdown",
   "version": "0.0.1",
   "description": "Minimalistic dropdown with keyboard support and search",
   "main": "dist/index.cjs.js",
@@ -19,7 +19,8 @@
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
-    "generate": "stencil generate"
+    "generate": "stencil generate",
+    "deploy": "gh-pages -d ./dist"
   },
   "dependencies": {
     "@stencil/core": "^2.0.1",

@@ -38,6 +38,9 @@
         height: 500px;
       }
 
+      revo-dropdown {
+        width: 200px;
+      }
 
       .tile.small {
         width: 200px;
@@ -51,15 +54,21 @@
     <button class="getValBtn">Get value</button>
     <div class="tile small" style="padding: 20px;">
       <div>
-        <revo-dropdown data-label="name"></revo-dropdown>
+        <revo-dropdown data-label="name" autocomplete="true" max-height="300"></revo-dropdown>
       </div>
     </div>
 
-
+    <div class="tile small" style="padding: 20px;">
+      <div>
+        <revo-dropdown data-label="name"  max-height="300"></revo-dropdown>
+      </div>
+    </div>
     <script type="module">
       import people from "./temp/people.js";
-      const dropdown = document.querySelector('revo-dropdown');
-      dropdown.source = people;
+      const dropdowns = document.querySelectorAll('revo-dropdown');
+      for (var q in dropdowns) {
+        dropdowns[q].source = people;
+      }
 
       const getValBtn = document.querySelector('.getValBtn');
       getValBtn.addEventListener('click', () => {

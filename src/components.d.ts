@@ -15,6 +15,8 @@ export namespace Components {
           * Should dropdown autoclose on changeValue
          */
         "autoClose": boolean;
+        "autoFocus": boolean;
+        "autocomplete": boolean;
         /**
           * Define object mapping for id/value
          */
@@ -40,6 +42,7 @@ export namespace Components {
          */
         "filter": 'contains'|'start';
         "hasFilter": boolean;
+        "maxHeight": number;
         /**
           * Placeholder text
          */
@@ -65,21 +68,6 @@ export namespace Components {
          */
         "sourceItems": any[];
     }
-    interface RevoListFilter {
-        /**
-          * Define object mapping for labels
-         */
-        "dataLabel": string;
-        "doFilter": (val?: string) => Promise<void>;
-        "filter": 'contains'|'start';
-        "filterByValue": string;
-        "hasFilter": boolean;
-        "isFocused": boolean;
-        /**
-          * Define object mapping for id/value
-         */
-        "source": any[];
-    }
 }
 declare global {
     interface HTMLRevoDropdownElement extends Components.RevoDropdown, HTMLStencilElement {
@@ -94,16 +82,9 @@ declare global {
         prototype: HTMLRevoListElement;
         new (): HTMLRevoListElement;
     };
-    interface HTMLRevoListFilterElement extends Components.RevoListFilter, HTMLStencilElement {
-    }
-    var HTMLRevoListFilterElement: {
-        prototype: HTMLRevoListFilterElement;
-        new (): HTMLRevoListFilterElement;
-    };
     interface HTMLElementTagNameMap {
         "revo-dropdown": HTMLRevoDropdownElement;
         "revo-list": HTMLRevoListElement;
-        "revo-list-filter": HTMLRevoListFilterElement;
     }
 }
 declare namespace LocalJSX {
@@ -116,6 +97,8 @@ declare namespace LocalJSX {
           * Should dropdown autoclose on changeValue
          */
         "autoClose"?: boolean;
+        "autoFocus"?: boolean;
+        "autocomplete"?: boolean;
         /**
           * Define object mapping for id/value
          */
@@ -129,6 +112,7 @@ declare namespace LocalJSX {
          */
         "filter"?: 'contains'|'start';
         "hasFilter"?: boolean;
+        "maxHeight"?: number;
         /**
           * When value changed
          */
@@ -166,26 +150,9 @@ declare namespace LocalJSX {
          */
         "sourceItems"?: any[];
     }
-    interface RevoListFilter {
-        /**
-          * Define object mapping for labels
-         */
-        "dataLabel"?: string;
-        "filter"?: 'contains'|'start';
-        "filterByValue"?: string;
-        "hasFilter"?: boolean;
-        "isFocused"?: boolean;
-        "onDoChange"?: (event: CustomEvent<{ item: any, e: any }>) => void;
-        "onFilterChange"?: (event: CustomEvent<string|undefined>) => void;
-        /**
-          * Define object mapping for id/value
-         */
-        "source"?: any[];
-    }
     interface IntrinsicElements {
         "revo-dropdown": RevoDropdown;
         "revo-list": RevoList;
-        "revo-list-filter": RevoListFilter;
     }
 }
 export { LocalJSX as JSX };
@@ -194,7 +161,6 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "revo-dropdown": LocalJSX.RevoDropdown & JSXBase.HTMLAttributes<HTMLRevoDropdownElement>;
             "revo-list": LocalJSX.RevoList & JSXBase.HTMLAttributes<HTMLRevoListElement>;
-            "revo-list-filter": LocalJSX.RevoListFilter & JSXBase.HTMLAttributes<HTMLRevoListFilterElement>;
         }
     }
 }
