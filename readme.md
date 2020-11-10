@@ -1,4 +1,4 @@
-# Revo-dropdown
+# `revo-dropdown`
 
 Minimalistic dropdown webcomponent. 
 After long search we couldn't find any cross platform and had to build our own inspired by the latest trends.
