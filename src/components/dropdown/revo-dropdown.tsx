@@ -213,7 +213,6 @@ export class RevoDropdown {
                 onFilterChange={e => {
                   this.currentFilter = e.value;
                   this.currentSource = e.items;
-                  console.log(e.items);
                   this.revoList?.refresh(this.currentSource );
                 }}/> :
               undefined
