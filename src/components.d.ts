@@ -10,7 +10,7 @@ export namespace Components {
         /**
           * Where to append element
          */
-        "appendTo": 'body'|'current';
+        "appendTo": 'body' | 'current';
         /**
           * Should dropdown autoclose on changeValue
          */
@@ -40,7 +40,7 @@ export namespace Components {
         /**
           * Filter criteria
          */
-        "filter": 'contains'|'start';
+        "filter": 'contains' | 'start';
         "hasFilter": boolean;
         "maxHeight": number;
         /**
@@ -92,7 +92,7 @@ declare namespace LocalJSX {
         /**
           * Where to append element
          */
-        "appendTo"?: 'body'|'current';
+        "appendTo"?: 'body' | 'current';
         /**
           * Should dropdown autoclose on changeValue
          */
@@ -110,13 +110,13 @@ declare namespace LocalJSX {
         /**
           * Filter criteria
          */
-        "filter"?: 'contains'|'start';
+        "filter"?: 'contains' | 'start';
         "hasFilter"?: boolean;
         "maxHeight"?: number;
         /**
           * When value changed
          */
-        "onChangeValue"?: (event: CustomEvent<{val: any, originalEvent?: MouseEvent}>) => void;
+        "onChangeValue"?: (event: CustomEvent<{ val: any; originalEvent?: MouseEvent }>) => void;
         /**
           * Before element close, can be prevented
          */
@@ -144,7 +144,7 @@ declare namespace LocalJSX {
          */
         "dataLabel"?: string;
         "isFocused"?: boolean;
-        "onDoChange"?: (event: CustomEvent<{ item: any, e: any }>) => void;
+        "onDoChange"?: (event: CustomEvent<{ item: any; e: any }>) => void;
         /**
           * Define object mapping for id/value
          */

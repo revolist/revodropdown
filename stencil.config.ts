@@ -3,9 +3,7 @@ import { sass } from '@stencil/sass';
 
 export const config: Config = {
   namespace: 'revo-dropdown',
-  plugins: [
-    sass()
-  ],
+  plugins: [sass()],
   outputTargets: [
     {
       type: 'dist',
@@ -19,9 +17,7 @@ export const config: Config = {
     },
     {
       type: 'www',
-      copy: [
-        { src: 'temp' },
-      ],
+      copy: [{ src: 'temp' }],
       serviceWorker: null, // disable service workers
     },
   ],

@@ -1,12 +1,11 @@
 # `revo-dropdown`
 
-Minimalistic dropdown webcomponent. 
+Minimalistic dropdown webcomponent.
 After long search we couldn't find any cross platform and had to build our own inspired by the latest trends.
 
-| <p align="left">Autocomplete</p> | <p align="left">Regular select</p>    |
-| ------------------- | ------------------------- |
-| <img src="./assets/Autocomplete.png" alt="Autocomplete dropdown" width="100%" /> | <img src="./assets/Regular.png" alt="Regular dropdown" width="100%" />|
-
+| <p align="left">Autocomplete</p>                                                 | <p align="left">Regular select</p>                                     |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| <img src="./assets/Autocomplete.png" alt="Autocomplete dropdown" width="100%" /> | <img src="./assets/Regular.png" alt="Regular dropdown" width="100%" /> |
 
 ## Getting Started
 
@@ -39,21 +38,14 @@ npm test
 
 Need help? Check out docs [here](https://stenciljs.com/docs/my-first-component).
 
-
 ### Script tag
 
 - Put a script tag similar to this `<script src='https://unpkg.com/revo-dropdown@latest/dist/revo-dropdown.js'></script>` in the head of your index.html
 - Then you can use the element anywhere in your template, JSX, html etc
 
-
-
-
 # API
 
-
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -69,7 +61,6 @@ Need help? Check out docs [here](https://stenciljs.com/docs/my-first-component).
 | `source`      | --            | Define object mapping for id/value       | `any[]`                 | `undefined`  |
 | `value`       | `value`       | Selected value                           | `any`                   | `undefined`  |
 
-
 ## Events
 
 | Event         | Description                            | Type                                                     |
@@ -77,7 +68,6 @@ Need help? Check out docs [here](https://stenciljs.com/docs/my-first-component).
 | `changeValue` | When value changed                     | `CustomEvent<{ val: any; originalEvent?: MouseEvent; }>` |
 | `close`       | Before element close, can be prevented | `CustomEvent<any>`                                       |
 | `open`        | Before element open, can be prevented  | `CustomEvent<any>`                                       |
-
 
 ## Methods
 
@@ -89,8 +79,6 @@ Change value
 
 Type: `Promise<void>`
 
-
-
 ### `doClose() => Promise<void>`
 
 Close dropdown
@@ -98,8 +86,6 @@ Close dropdown
 #### Returns
 
 Type: `Promise<void>`
-
-
 
 ### `doOpen() => Promise<void>`
 
@@ -109,9 +95,6 @@ Open dropdown
 
 Type: `Promise<void>`
 
-
-
-
 ## Dependencies
 
 ### Depends on
@@ -119,12 +102,13 @@ Type: `Promise<void>`
 - [revo-list](../list)
 
 ### Graph
+
 ```mermaid
 graph TD;
   revo-dropdown --> revo-list
   style revo-dropdown fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

@@ -1,29 +1,27 @@
 # revo-list
 
-
-
 <!-- Auto Generated Below -->
 
 
 ## Properties
 
-| Property    | Attribute    | Description                        | Type                    | Default      |
-| ----------- | ------------ | ---------------------------------- | ----------------------- | ------------ |
-| `dataLabel` | `data-label` | Define object mapping for labels   | `string`                | `undefined`  |
-| `filter`    | `filter`     | Filter criteria                    | `"contains" \| "start"` | `'contains'` |
-| `source`    | --           | Define object mapping for id/value | `any[]`                 | `[]`         |
+| Property      | Attribute    | Description                        | Type      | Default     |
+| ------------- | ------------ | ---------------------------------- | --------- | ----------- |
+| `dataLabel`   | `data-label` | Define object mapping for labels   | `string`  | `undefined` |
+| `isFocused`   | `is-focused` |                                    | `boolean` | `false`     |
+| `sourceItems` | --           | Define object mapping for id/value | `any[]`   | `[]`        |
 
 
 ## Events
 
-| Event      | Description | Type                                         |
-| ---------- | ----------- | -------------------------------------------- |
-| `doChange` |             | `CustomEvent<{ item: any; e: MouseEvent; }>` |
+| Event      | Description | Type                                  |
+| ---------- | ----------- | ------------------------------------- |
+| `doChange` |             | `CustomEvent<{ item: any; e: any; }>` |
 
 
 ## Methods
 
-### `doFilter(val: string) => Promise<void>`
+### `refresh(source: any[]) => Promise<void>`
 
 
 
@@ -38,7 +36,7 @@ Type: `Promise<void>`
 
 ### Used by
 
- - [revo-dropdown](../main)
+ - [revo-dropdown](../dropdown)
 
 ### Graph
 ```mermaid

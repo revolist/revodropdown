@@ -1,5 +1,5 @@
-import { Component, h, Prop, Event, EventEmitter, Method, Listen, State } from "@stencil/core";
-import { getItemLabel } from "../../utils/item.helpers";
+import { Component, h, Prop, Event, EventEmitter, Method, Listen, State } from '@stencil/core';
+import { getItemLabel } from '../../utils/item.helpers';
 
 @Component({ tag: 'revo-list', styleUrl: 'revo-list.style.scss' })
 export class RevoDropdownList {
@@ -10,13 +10,12 @@ export class RevoDropdownList {
    */
   @Prop() sourceItems: any[] = [];
   @Prop() isFocused: boolean = false;
-    /**
+  /**
    * Define object mapping for labels
    */
   @Prop() dataLabel: string;
 
-  @Event({ bubbles: false }) doChange: EventEmitter<{ item: any, e: any }>;
-
+  @Event({ bubbles: false }) doChange: EventEmitter<{ item: any; e: any }>;
 
   /** Recived keyboard down from element */
   @Listen('keydown', { target: 'document' }) onKey(e: KeyboardEvent) {
@@ -28,7 +27,7 @@ export class RevoDropdownList {
         e.preventDefault();
         if (this.currentItem <= 0) {
           return;
-        } 
+        }
         this.currentItem--;
         break;
       case 'ArrowDown':
@@ -54,26 +53,32 @@ export class RevoDropdownList {
   componentDidRender() {
     this.selectedEl?.scrollIntoView({
       block: 'nearest',
-      inline: 'nearest'
+      inline: 'nearest',
     });
   }
 
   render() {
     this.selectedEl = undefined;
-		const items = [];
-		for (let i in this.sourceItems) {
+    const items = [];
+    for (let i in this.sourceItems) {
       const item = this.sourceItems[i];
       const isSelected = parseInt(i) === this.currentItem;
-			items.push(
-        <li class={isSelected ? 'selected' : ''}
-         ref={e => {
-          if (isSelected) {
-            this.selectedEl = e;
-          }
-         }}
-         onClick={(e) => { this.doChange.emit({ item, e }); }}>{getItemLabel(item, this.dataLabel)}</li>
-			);
-		}
-		return <ul>{items}</ul>;
+      items.push(
+        <li
+          class={isSelected ? 'selected' : ''}
+          ref={e => {
+            if (isSelected) {
+              this.selectedEl = e;
+            }
+          }}
+          onClick={e => {
+            this.doChange.emit({ item, e });
+          }}
+        >
+          {getItemLabel(item, this.dataLabel)}
+        </li>,
+      );
+    }
+    return <ul>{items}</ul>;
   }
 }

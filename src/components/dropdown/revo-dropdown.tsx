@@ -57,11 +57,11 @@ export class RevoDropdown {
   /**
    * Where to append element
    */
-  @Prop() appendTo: 'body'|'current' = 'body';
+  @Prop() appendTo: 'body' | 'current' = 'body';
   /**
    * Filter criteria
    */
-  @Prop() filter: 'contains'|'start';
+  @Prop() filter: 'contains' | 'start';
 
   @Prop() maxHeight: number;
 
@@ -69,7 +69,6 @@ export class RevoDropdown {
 
   @Prop() autocomplete: boolean = false;
   @Prop() autoFocus: boolean = false;
-
 
   // --------------------------------------------------------------------------
   //
@@ -79,7 +78,7 @@ export class RevoDropdown {
   /**
    * When value changed
    */
-  @Event() changeValue: EventEmitter<{val: any, originalEvent?: MouseEvent}>;
+  @Event() changeValue: EventEmitter<{ val: any; originalEvent?: MouseEvent }>;
   /**
    * Before element close, can be prevented
    */
@@ -90,13 +89,11 @@ export class RevoDropdown {
    */
   @Event() open: EventEmitter;
 
-
   // --------------------------------------------------------------------------
   //
   //  Methods
   //
   // --------------------------------------------------------------------------
-
 
   /**
    * Close dropdown
@@ -119,7 +116,6 @@ export class RevoDropdown {
     this.isVisible = true;
   }
 
-
   /**
    * Change value
    */
@@ -131,19 +127,17 @@ export class RevoDropdown {
     }
   }
 
-
   // --------------------------------------------------------------------------
   //
   //  Internal
   //
   // --------------------------------------------------------------------------
 
-
   /** Action finished */
   @Listen('mousedown', { target: 'document' })
   onMouseUp(e: MouseEvent): void {
     if (this.isVisible && !e.defaultPrevented) {
-      if (!(e.target as HTMLElement|null)?.closest(`[${UUID}="${this.uuid}"]`)) {
+      if (!(e.target as HTMLElement | null)?.closest(`[${UUID}="${this.uuid}"]`)) {
         this.doClose();
       }
     }
@@ -170,7 +164,7 @@ export class RevoDropdown {
   }
 
   connectedCallback() {
-    this.uuid = `${(new Date()).getTime()}-rvdropdown`;
+    this.uuid = `${new Date().getTime()}-rvdropdown`;
     if (typeof this.value !== 'undefined') {
       this.onValueChanged(this.value);
     }
@@ -197,72 +191,77 @@ export class RevoDropdown {
   }
 
   private renderDropdown() {
-    return <div {...{[UUID]: this.uuid}}
-      class='revo-dropdown-list'
-      ref={e => this.dropdown = e}>
-        <div class='dropdown-inner' ref={e => this.dropdownInner = e}>
-            {this.hasFilter && !this.autocomplete ? 
-              <DropdownListFilter
-                ref={e => this.dropdownInput = e}
-                source={this.source}
-                filter={this.filter}
-                dataLabel={this.dataLabel}
-                value={this.currentFilter || ''}
-                filterValue={this.currentFilter || ''}
-                onFilterChange={e => {
-                  this.currentFilter = e.value;
-                  this.currentSource = e.items;
-                  this.revoList?.refresh(this.currentSource );
-                }}/> :
-              undefined
-            }
-            <revo-list
-              ref={e => this.revoList = e}
-              isFocused={true}
-              sourceItems={this.currentSource}
+    return (
+      <div {...{ [UUID]: this.uuid }} class="revo-dropdown-list" ref={e => (this.dropdown = e)}>
+        <div class="dropdown-inner" ref={e => (this.dropdownInner = e)}>
+          {this.hasFilter && !this.autocomplete ? (
+            <DropdownListFilter
+              ref={e => (this.dropdownInput = e)}
+              source={this.source}
+              filter={this.filter}
               dataLabel={this.dataLabel}
-              onDoChange={e => this.doChange(e.detail.item, e.detail.e)}/>
+              value={this.currentFilter || ''}
+              filterValue={this.currentFilter || ''}
+              onFilterChange={e => {
+                this.currentFilter = e.value;
+                this.currentSource = e.items;
+                this.revoList?.refresh(this.currentSource);
+              }}
+            />
+          ) : undefined}
+          <revo-list
+            ref={e => (this.revoList = e)}
+            isFocused={true}
+            sourceItems={this.currentSource}
+            dataLabel={this.dataLabel}
+            onDoChange={e => this.doChange(e.detail.item, e.detail.e)}
+          />
         </div>
-    </div>;
+      </div>
+    );
   }
 
   renderSelect() {
-    return <input type="text" disabled class='filter-box' value={this.currentItem && getItemLabel(this.currentItem, this.dataLabel) || ''} />;
+    return <input type="text" disabled class="filter-box" value={(this.currentItem && getItemLabel(this.currentItem, this.dataLabel)) || ''} />;
   }
 
   renderAutocomplete() {
     const val = this.currentItem ? getItemLabel(this.currentItem, this.dataLabel) : '';
-    return <DropdownListFilter
-      ref={e => this.autocompleteInput = e}
-      source={this.source}
-      filter={this.filter}
-      dataLabel={this.dataLabel}
-      value={val}
-      filterValue={this.currentFilter}
-      onKeyDown={(e) => {
-        if (this.isVisible) {
-          return;
-        }
-        switch (e.code) {
-          case 'ArrowUp':
-          case 'ArrowDown':
-            e.preventDefault();
-            this.showAutoComplete();
-            break;
-      }}}
-      onInput={() => this.showAutoComplete()}
-      onFocus={() => this.showAutoComplete()}
-      onClick={() => this.showAutoComplete()}
-      onBlur={(e) => {
-        if (!(e?.target as HTMLInputElement|null)?.value?.trim()) {
-          this.currentItem = null;
-        }
-      }}
-      onFilterChange={e => {
-        this.currentFilter = e.value;
-        this.currentSource = e.items;
-        this.revoList?.refresh(this.currentSource );
-      }}/>;
+    return (
+      <DropdownListFilter
+        ref={e => (this.autocompleteInput = e)}
+        source={this.source}
+        filter={this.filter}
+        dataLabel={this.dataLabel}
+        value={val}
+        filterValue={this.currentFilter}
+        onKeyDown={e => {
+          if (this.isVisible) {
+            return;
+          }
+          switch (e.code) {
+            case 'ArrowUp':
+            case 'ArrowDown':
+              e.preventDefault();
+              this.showAutoComplete();
+              break;
+          }
+        }}
+        onInput={() => this.showAutoComplete()}
+        onFocus={() => this.showAutoComplete()}
+        onClick={() => this.showAutoComplete()}
+        onBlur={e => {
+          if (!(e?.target as HTMLInputElement | null)?.value?.trim()) {
+            this.currentItem = null;
+          }
+        }}
+        onFilterChange={e => {
+          this.currentFilter = e.value;
+          this.currentSource = e.items;
+          this.revoList?.refresh(this.currentSource);
+        }}
+      />
+    );
   }
 
   private showAutoComplete() {
@@ -279,27 +278,33 @@ export class RevoDropdown {
     }
     const props = {
       [UUID]: this.uuid,
-      ...(this.autocomplete ? {['autocomplete']: true} : undefined)
+      ...(this.autocomplete ? { ['autocomplete']: true } : undefined),
     };
-    return <Host {...props}
-      class={{
-        active: this.isVisible,
-        shrink: this.isVisible || !!this.currentItem || !!this.autocompleteInput?.value
-      }}
-      ref={e => this.element = e}
-      onClick={(e) => this.selectClick(e)}>
-      <label>{this.placeholder}</label>
-      <div class="rv-dr-root">
-        {this.autocomplete ? this.renderAutocomplete() : this.renderSelect()}
-        <span class="actions"><ArrowRenderer/></span>
-        <fieldset>
-          <legend>
-            <span>{this.placeholder}</span>
-          </legend>
-        </fieldset>
-      </div>
-      {list}
-      </Host>;
+    return (
+      <Host
+        {...props}
+        class={{
+          active: this.isVisible,
+          shrink: this.isVisible || !!this.currentItem || !!this.autocompleteInput?.value,
+        }}
+        ref={e => (this.element = e)}
+        onClick={e => this.selectClick(e)}
+      >
+        <label>{this.placeholder}</label>
+        <div class="rv-dr-root">
+          {this.autocomplete ? this.renderAutocomplete() : this.renderSelect()}
+          <span class="actions">
+            <ArrowRenderer />
+          </span>
+          <fieldset>
+            <legend>
+              <span>{this.placeholder}</span>
+            </legend>
+          </fieldset>
+        </div>
+        {list}
+      </Host>
+    );
   }
 
   private selectClick(e: Event) {
@@ -312,12 +317,12 @@ export class RevoDropdown {
       this.doOpen();
     }
   }
-  
+
   private updateStyles() {
     if (!this.dropdown) {
       return;
     }
-    const {top, left, height} = this.element.getBoundingClientRect();
+    const { top, left, height } = this.element.getBoundingClientRect();
     const visibleRect = this.clientRectangle();
     let currentTop = top + height + visibleRect.top;
 
@@ -333,8 +338,8 @@ export class RevoDropdown {
       style.top = `${currentTop - height}px`;
       style.maxHeight = currentTop - height - visibleRect.top - 50;
       this.dropdown.classList.add('top');
-    
-    // bottom
+
+      // bottom
     } else {
       style.top = `${currentTop}px`;
       style.maxHeight = visibleRect.bottom - currentTop - 50;
@@ -356,7 +361,6 @@ export class RevoDropdown {
     }
   }
 
-
   private clientRectangle() {
     const rect = {
       top: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop,
@@ -370,8 +374,8 @@ export class RevoDropdown {
     };
     rect.bottom = rect.top + rect.height;
     rect.right = rect.left + rect.width;
-    rect.centerY = rect.top + rect.height/2;
-    rect.centerX = rect.left + rect.width/2;
+    rect.centerY = rect.top + rect.height / 2;
+    rect.centerX = rect.left + rect.width / 2;
     return rect;
   }
 }
