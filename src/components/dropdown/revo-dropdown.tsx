@@ -179,7 +179,6 @@ export class RevoDropdown {
   disconnectedCallback() {
     this.doClose();
   }
-
   componentDidRender() {
     if (this.dropdown && this.appendTo === 'body') {
       document.body.appendChild(this.dropdown);
