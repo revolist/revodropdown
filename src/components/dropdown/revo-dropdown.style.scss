@@ -52,7 +52,6 @@ revo-dropdown {
     display: block;
     background: none;
     box-sizing: content-box;
-    animation-name: mui-auto-fill-cancel;
     letter-spacing: inherit;
     animation-duration: 10ms;
 
@@ -68,6 +67,7 @@ revo-dropdown {
   }
 
   label {
+    $time: 200ms;
     font-size: 1rem;
     z-index: 1;
     top: 0;
@@ -76,7 +76,7 @@ revo-dropdown {
     display: block;
     transform-origin: top left;
     line-height: 1;
-    transition: color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+    transition: color $time cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform $time cubic-bezier(0.0, 0, 0.2, 1) 0ms;
     transform: translate($font-size, $font-size) scale(1);
     pointer-events: none;
   }
@@ -117,7 +117,7 @@ revo-dropdown {
 
   &.shrink {
     label {
-      transform: translate($font-size, -6px) scale(0.75);
+      transform: translate($font-size, -6px) scale(.75);
     }
 
     legend {
@@ -154,7 +154,7 @@ revo-dropdown {
   @include fontStyle;
 
   position: absolute;
-  transition: opacity 247ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 165ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 160ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   z-index: 999;
 
   &.top .dropdown-inner {
@@ -187,6 +187,7 @@ revo-dropdown {
     min-width: 16px;
   
     box-shadow: 0 0 14px 0 rgba(53,64,82,.05);
+    border: 1px solid rgb(0 0 0 / 5%);
     border-radius: 4px;
     color: rgba(0, 0, 0, 0.87);
     overflow: hidden;

@@ -20,7 +20,7 @@
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate",
-    "deploy": "gh-pages -d ./dist"
+    "deploy": "gh-pages -d ./www"
   },
   "dependencies": {
     "@stencil/core": "^2.0.1",

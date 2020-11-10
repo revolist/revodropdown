@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <title>Stencil Component Starter</title>
+    <title>Dropdown and autocomplete</title>
     <style type="text/css">
     
       body, html {
@@ -14,19 +14,32 @@
         background-color: #f7f9fc;
         text-align: center;
         position: relative;
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
       }
       body {
         padding: 20px;
         font-size: 14px;
       }
+      .sub-title {
+        text-align: left;
+        padding: 10px 0 15px 0;
+        color: gray;
+      }
       .tile {
         background-color: #fff;
-        display: flex;
         margin: 0 auto;
         padding: 20px 0;
         box-shadow: 0 0 14px 0 rgba(53,64,82,.05);
         border-radius: 10px;
         overflow: hidden;
+        list-style: none;
+        display: flex;
+      }
+
+      .tile > li {
+        margin: 10px;
+        display: flex;
+        flex-direction: column;
       }
   
       .tile.dark {
@@ -43,37 +56,31 @@
       }
 
       .tile.small {
-        width: 200px;
-        height: 200px;
+        width: 450px;
+        height: 150px;
       }
     </style>
     <script type="module" src="/build/revo-dropdown.esm.js"></script>
     <script nomodule src="/build/revo-dropdown.js"></script>
   </head>
   <body>
-    <button class="getValBtn">Get value</button>
-    <div class="tile small" style="padding: 20px;">
-      <div>
-        <revo-dropdown data-label="name" autocomplete="true" max-height="300"></revo-dropdown>
-      </div>
+    <ul class="tile small" style="padding: 20px;">
+      <li>
+        <div class="sub-title">Autocomplete</div>
+        <revo-dropdown data-label="name" autocomplete="true" placeholder="Philosophers" max-height="300"></revo-dropdown>
+      </li>
+      <li>
+        <div class="sub-title">Regular select</div>
+        <revo-dropdown data-label="name" placeholder="People" max-height="300"></revo-dropdown>
+      </li>
     </div>
 
-    <div class="tile small" style="padding: 20px;">
-      <div>
-        <revo-dropdown data-label="name"  max-height="300"></revo-dropdown>
-      </div>
-    </div>
     <script type="module">
       import people from "./temp/people.js";
       const dropdowns = document.querySelectorAll('revo-dropdown');
-      for (var q in dropdowns) {
+      for (var q = 0; q < dropdowns.length; q++) {
         dropdowns[q].source = people;
       }
-
-      const getValBtn = document.querySelector('.getValBtn');
-      getValBtn.addEventListener('click', () => {
-        console.log(dropdown.value);
-      });
       
     </script>
   </body>
