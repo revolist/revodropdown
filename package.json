@@ -15,7 +15,6 @@
     "loader/"
   ],
   "scripts": {
-    "postinstall": "husky install",
     "prepublish": "pinst --disable",
     "postpublish": "pinst --enable",
     "build": "stencil build --docs",
@@ -27,12 +26,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "pretty-quick --staged"
     }
-  },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown",
-    "*.{js,css,md}": "prettier --write"
   },
   "dependencies": {
     "@stencil/core": "^2.0.1",
