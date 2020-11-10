@@ -4,11 +4,12 @@
   <a href="https://github.com/revolist/revodropdown/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/@revolist/revodropdown" alt="Software License"/></a>
 </p>
 
-<img src="./assets/Autocomplete.png" alt="Autocomplete dropdown" width="100%" />
 <i>Autocomplete</i>
+<img src="./assets/Autocomplete.png" alt="Autocomplete dropdown" width="100%" />
+
 <br>
-<img src="./assets/Regular.png" alt="Regular dropdown" width="100%" />
 <i>Regular select</i>
+<img src="./assets/Regular.png" alt="Regular dropdown" width="100%" />
 <br>
 # Description
 
