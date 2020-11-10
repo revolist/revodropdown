@@ -1,21 +1,12 @@
-# RevoDropdown component
+# Revo-dropdown
 
-<p align="center">
-  <a href="https://github.com/revolist/revodropdown/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/@revolist/revodropdown" alt="Software License"/></a>
-</p>
+Minimalistic dropdown webcomponent. 
+After long search we couldn't find any cross platform and had to build our own inspired by the latest trends.
 
-| <i>Autocomplete</i> | <i>Regular select</i>     |
+| <p align="left">Autocomplete</p> | <p align="left">Regular select</p>    |
 | ------------------- | ------------------------- |
 | <img src="./assets/Autocomplete.png" alt="Autocomplete dropdown" width="100%" /> | <img src="./assets/Regular.png" alt="Regular dropdown" width="100%" />|
 
-
-
-
-<br>
-# Description
-
-This is minimalistic dropdown webcomponent. 
-After long search we couldn't find any cross platform and had to build our own inspired by the latest trends.
 
 ## Getting Started
 
@@ -57,7 +48,7 @@ Need help? Check out docs [here](https://stenciljs.com/docs/my-first-component).
 
 
 
-# revo-dropdown
+# API
 
 
 
