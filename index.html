@@ -1,0 +1,64 @@
+<!doctype html><html dir="ltr" lang="en"><head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"> <title>Dropdown and autocomplete</title> <style type="text/css">body, html {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f9fc;
+        text-align: center;
+        position: relative;
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+      }
+      body {
+        padding: 20px;
+        font-size: 14px;
+      }
+      .sub-title {
+        text-align: left;
+        padding: 10px 0 15px 0;
+        color: gray;
+      }
+      .tile {
+        background-color: #fff;
+        margin: 0 auto;
+        padding: 20px 0;
+        box-shadow: 0 0 14px 0 rgba(53,64,82,.05);
+        border-radius: 10px;
+        overflow: hidden;
+        list-style: none;
+        display: flex;
+      }
+
+      .tile > li {
+        margin: 10px;
+        display: flex;
+        flex-direction: column;
+      }
+  
+      .tile.dark {
+        background-color: #333;
+      }
+  
+      .tile.large {
+        width: 800px;
+        height: 500px;
+      }
+
+      revo-dropdown {
+        width: 200px;
+      }
+
+      .tile.small {
+        width: 450px;
+        height: 150px;
+      }</style> <script type="module" src="/build/revo-dropdown.esm.js" data-stencil></script> <script nomodule="" src="/build/revo-dropdown.js" data-stencil></script> </head> <body> <ul class="tile small" style="padding: 20px;"> <li> <div class="sub-title">Autocomplete</div> <revo-dropdown data-label="name" autocomplete="true" placeholder="Philosophers" max-height="300"></revo-dropdown> </li> <li> <div class="sub-title">Regular select</div> <revo-dropdown data-label="name" placeholder="People" max-height="300"></revo-dropdown> </li> <script type="module">import people from "./temp/people.js";
+      const dropdowns = document.querySelectorAll('revo-dropdown');
+      for (var q = 0; q < dropdowns.length; q++) {
+        dropdowns[q].source = people;
+      }</script> </ul><script>if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  // auto-unregister service worker during dev mode
+  navigator.serviceWorker.getRegistration().then(function(registration) {
+  if (registration) {
+    registration.unregister().then(function() { location.reload(true) });
+  }
+  });
+}</script></body></html>

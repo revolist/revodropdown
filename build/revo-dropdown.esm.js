@@ -1,4 +1,4 @@
-import { B as BUILD, c as consoleDevInfo, p as plt, w as win, H, d as doc, N as NAMESPACE, a as promiseResolve, b as bootstrapLazy } from './index-ddad1057.js';
+import { B as BUILD, c as consoleDevInfo, p as plt, w as win, H, d as doc, N as NAMESPACE, a as promiseResolve, b as bootstrapLazy } from './index-3bd4b602.js';
 import { g as globalScripts } from './app-globals-0f993ce5.js';
 
 /*
@@ -118,5 +118,5 @@ const patchCloneNodeFix = (HTMLElementPrototype) => {
 
 patchBrowser().then(options => {
   globalScripts();
-  return bootstrapLazy([["revo-list",[[0,"revo-list",{"sourceItems":[16],"isFocused":[4,"is-focused"],"dataLabel":[1,"data-label"],"currentItem":[32],"refresh":[64]},[[4,"keydown","onKey"]]]]],["revo-list-filter",[[0,"revo-list-filter",{"filter":[1],"hasFilter":[4,"has-filter"],"source":[16],"dataLabel":[1,"data-label"],"filterByValue":[1,"filter-by-value"],"isFocused":[4,"is-focused"],"doFilter":[64]}]]],["revo-dropdown",[[0,"revo-dropdown",{"dataLabel":[1,"data-label"],"value":[1032],"dataId":[1,"data-id"],"autoClose":[4,"auto-close"],"source":[16],"placeholder":[1],"appendTo":[1,"append-to"],"filter":[1],"hasFilter":[4,"has-filter"],"currentItem":[32],"isVisible":[32],"doClose":[64],"doOpen":[64],"doChange":[64]},[[5,"mousedown","onMouseUp"],[4,"keydown","onKey"]]]]]], options);
+  return bootstrapLazy([["revo-list",[[0,"revo-list",{"sourceItems":[16],"isFocused":[4,"is-focused"],"dataLabel":[1,"data-label"],"currentItem":[32],"refresh":[64]},[[4,"keydown","onKey"]]]]],["revo-dropdown",[[0,"revo-dropdown",{"dataLabel":[1,"data-label"],"value":[1032],"dataId":[1,"data-id"],"autoClose":[4,"auto-close"],"source":[16],"placeholder":[1],"appendTo":[1,"append-to"],"filter":[1],"maxHeight":[2,"max-height"],"hasFilter":[4,"has-filter"],"autocomplete":[4],"autoFocus":[4,"auto-focus"],"currentItem":[32],"isVisible":[32],"doClose":[64],"doOpen":[64],"doChange":[64]},[[5,"mousedown","onMouseUp"],[4,"keydown","onKey"]]]]]], options);
 });

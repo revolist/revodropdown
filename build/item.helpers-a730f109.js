@@ -5,4 +5,4 @@ function getItemValue(item, dataId) {
   return dataId ? item[dataId] : item;
 }
 
-export { getItemLabel as a, getItemValue as g };
+export { getItemValue as a, getItemLabel as g };
