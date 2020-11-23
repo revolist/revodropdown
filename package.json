@@ -14,6 +14,25 @@
     "dist/",
     "loader/"
   ],
+
+  "keywords": [
+    "revo-grid",
+    "revolist",
+    "datagrid",
+    "revoGrid",
+    "stenciljs",
+    "reactive",
+    "virtualgrid",
+    "virtual vue grid",
+    "react datagrid",
+    "editable",
+    "excel",
+    "webcomponent",
+    "autocomplete",
+    "dropdown",
+    "jsdropdown",
+    "dropdownlist"
+  ],
   "scripts": {
     "pretty-quick": "pretty-quick",
     "build": "stencil build --docs",
