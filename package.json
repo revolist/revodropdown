@@ -1,6 +1,6 @@
 {
   "name": "@revolist/revo-dropdown",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Minimalistic dropdown with keyboard support and search",
   "main": "dist/index.cjs.js",
   "module": "dist/custom-elements/index.js",
@@ -14,7 +14,7 @@
     "dist/",
     "loader/"
   ],
-
+  "author": "revolist",
   "keywords": [
     "revo-grid",
     "revolist",
