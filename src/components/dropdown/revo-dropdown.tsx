@@ -130,6 +130,9 @@ export class RevoDropdown {
   @Method() async doChange(val: any, originalEvent?: MouseEvent): Promise<void> {
     this.value = val;
     this.changeValue.emit({ val, originalEvent });
+    if (this.autocompleteInput) {
+      this.autocompleteInput.value = getItemLabel(this.currentItem, this.dataLabel);
+    }
     if (this.autoClose && this.isVisible) {
       this.doClose();
     }
@@ -145,7 +148,8 @@ export class RevoDropdown {
   @Listen('mousedown', { target: 'document' })
   onMouseUp(e: MouseEvent): void {
     if (this.isVisible && !e.defaultPrevented) {
-      if (!(e.target as HTMLElement | null)?.closest(`[${UUID}="${this.uuid}"]`)) {
+      const isOutside = !(e.target as HTMLElement|null)?.closest(`[${UUID}="${this.uuid}"]`);
+      if (isOutside) {
         this.doClose();
       }
     }
@@ -161,14 +165,7 @@ export class RevoDropdown {
   }
 
   @Watch('value') onValueChanged(newVal: any) {
-    for (let index in this.source) {
-      const item = this.source[index];
-      if (newVal == getItemValue(item, this.dataId)) {
-        this.currentItem = item;
-        return;
-      }
-    }
-    this.currentItem = null;
+    this.currentItem = this.getValue(newVal);
   }
 
   componentWillLoad() {
@@ -267,11 +264,6 @@ export class RevoDropdown {
         onInput={() => this.showAutoComplete()}
         onFocus={() => this.showAutoComplete()}
         onClick={() => this.showAutoComplete()}
-        onBlur={e => {
-          if (!(e?.target as HTMLInputElement | null)?.value?.trim()) {
-            this.currentItem = null;
-          }
-        }}
         onFilterChange={e => {
           this.currentFilter = e.value;
           this.currentSource = e.items;
@@ -279,13 +271,6 @@ export class RevoDropdown {
         }}
       />
     );
-  }
-
-  private showAutoComplete() {
-    if (!this.isVisible && !this.isClosing) {
-      this.isVisible = true;
-    }
-    this.isClosing = false;
   }
 
   render() {
@@ -320,6 +305,23 @@ export class RevoDropdown {
         {list}
       </Host>
     );
+  }
+
+  private showAutoComplete() {
+    if (!this.isVisible && !this.isClosing) {
+      this.isVisible = true;
+    }
+    this.isClosing = false;
+  }
+
+  private getValue(newVal: any) {
+    for (let index in this.source) {
+      const item = this.source[index];
+      if (newVal == getItemValue(item, this.dataId)) {
+        return item;
+      }
+    }
+    return null;
   }
 
   private selectClick(e: Event) {

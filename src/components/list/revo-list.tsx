@@ -63,21 +63,17 @@ export class RevoDropdownList {
     for (let i in this.sourceItems) {
       const item = this.sourceItems[i];
       const isSelected = parseInt(i) === this.currentItem;
-      items.push(
-        <li
-          class={isSelected ? 'selected' : ''}
-          ref={e => {
-            if (isSelected) {
-              this.selectedEl = e;
-            }
-          }}
-          onClick={e => {
-            this.doChange.emit({ item, e });
-          }}
-        >
-          {getItemLabel(item, this.dataLabel)}
-        </li>,
-      );
+      const props = {
+        class: { 'selected': isSelected },
+        ref: e => {
+          if (isSelected) {
+            this.selectedEl = e;
+          }
+        },
+        onClick: e => this.doChange.emit({ item, e })
+      };
+      const li = <li {...props}>{getItemLabel(item, this.dataLabel)}</li>;
+      items.push(li);
     }
     return <ul>{items}</ul>;
   }
