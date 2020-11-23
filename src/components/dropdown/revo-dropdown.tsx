@@ -14,11 +14,12 @@ export class RevoDropdown {
   private dropdown: HTMLElement;
   private dropdownInner: HTMLElement;
   private dropdownInput: HTMLInputElement;
-  autocompleteInput: HTMLInputElement;
+  private autocompleteInput: HTMLInputElement;
   private revoList: HTMLRevoListElement;
   private uuid: string = '';
-  private currentFilter: string = '';
   private currentSource?: any[];
+  private isClosing = false;
+
   @State() currentItem: any = null;
   @State() isVisible = false;
 
@@ -35,6 +36,10 @@ export class RevoDropdown {
    * Selected value
    */
   @Prop({ mutable: true }) value: any;
+  /**
+   * Filter value
+   */
+  @Prop({ mutable: true }) currentFilter: any;
 
   /**
    * Define object mapping for id/value
@@ -98,11 +103,14 @@ export class RevoDropdown {
   /**
    * Close dropdown
    */
-  @Method() async doClose(): Promise<void> {
-    const event = this.close.emit();
-    if (event.defaultPrevented) {
-      return;
+  @Method() async doClose(isDisconnected = false): Promise<void> {
+    if (!isDisconnected) {
+      const event = this.close.emit();
+      if (event.defaultPrevented) {
+        return;
+      }
     }
+    this.isClosing = true;
     this.isVisible = false;
   }
   /**
@@ -163,6 +171,12 @@ export class RevoDropdown {
     this.currentItem = null;
   }
 
+  componentWillLoad() {
+    if (this.value) {
+      this.currentItem = this.value;
+    }
+  }
+
   connectedCallback() {
     this.uuid = `${new Date().getTime()}-rvdropdown`;
     if (typeof this.value !== 'undefined') {
@@ -171,8 +185,9 @@ export class RevoDropdown {
   }
 
   disconnectedCallback() {
-    this.doClose();
+    this.doClose(true);
   }
+
   componentDidRender() {
     if (this.dropdown && this.appendTo === 'body') {
       document.body.appendChild(this.dropdown);
@@ -185,7 +200,7 @@ export class RevoDropdown {
     }
     if (this.autoFocus) {
       if (this.autocomplete) {
-        this.autocompleteInput?.focus();
+        setTimeout(() => this.autocompleteInput?.focus(), 0);
       }
     }
   }
@@ -222,7 +237,8 @@ export class RevoDropdown {
   }
 
   renderSelect() {
-    return <input type="text" disabled class="filter-box" value={(this.currentItem && getItemLabel(this.currentItem, this.dataLabel)) || ''} />;
+    const val = this.currentItem && getItemLabel(this.currentItem, this.dataLabel) || '';
+    return <input type="text" disabled class="filter-box" value={val} />;
   }
 
   renderAutocomplete() {
@@ -230,6 +246,7 @@ export class RevoDropdown {
     return (
       <DropdownListFilter
         ref={e => (this.autocompleteInput = e)}
+        autocomplete='true'
         source={this.source}
         filter={this.filter}
         dataLabel={this.dataLabel}
@@ -265,10 +282,10 @@ export class RevoDropdown {
   }
 
   private showAutoComplete() {
-    if (!this.isVisible) {
-      this.currentFilter = '';
+    if (!this.isVisible && !this.isClosing) {
       this.isVisible = true;
     }
+    this.isClosing = false;
   }
 
   render() {
@@ -278,24 +295,22 @@ export class RevoDropdown {
     }
     const props = {
       [UUID]: this.uuid,
-      ...(this.autocomplete ? { ['autocomplete']: true } : undefined),
+      class: {
+        active: this.isVisible,
+        shrink: this.isVisible || !!this.currentItem || !!this.autocompleteInput?.value,
+      },
+      ref: e => (this.element = e),
+      onClick: e => this.selectClick(e)
     };
+    if (this.autocomplete) {
+      props['autocomplete'] = true;
+    }
     return (
-      <Host
-        {...props}
-        class={{
-          active: this.isVisible,
-          shrink: this.isVisible || !!this.currentItem || !!this.autocompleteInput?.value,
-        }}
-        ref={e => (this.element = e)}
-        onClick={e => this.selectClick(e)}
-      >
+      <Host {...props}>
         <label>{this.placeholder}</label>
         <div class="rv-dr-root">
           {this.autocomplete ? this.renderAutocomplete() : this.renderSelect()}
-          <span class="actions">
-            <ArrowRenderer />
-          </span>
+          <span class="actions"><ArrowRenderer/></span>
           <fieldset>
             <legend>
               <span>{this.placeholder}</span>

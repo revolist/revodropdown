@@ -18,6 +18,10 @@ export namespace Components {
         "autoFocus": boolean;
         "autocomplete": boolean;
         /**
+          * Filter value
+         */
+        "currentFilter": any;
+        /**
           * Define object mapping for id/value
          */
         "dataId": string;
@@ -32,7 +36,7 @@ export namespace Components {
         /**
           * Close dropdown
          */
-        "doClose": () => Promise<void>;
+        "doClose": (isDisconnected?: boolean) => Promise<void>;
         /**
           * Open dropdown
          */
@@ -99,6 +103,10 @@ declare namespace LocalJSX {
         "autoClose"?: boolean;
         "autoFocus"?: boolean;
         "autocomplete"?: boolean;
+        /**
+          * Filter value
+         */
+        "currentFilter"?: any;
         /**
           * Define object mapping for id/value
          */

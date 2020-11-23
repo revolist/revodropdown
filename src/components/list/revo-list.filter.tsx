@@ -8,6 +8,7 @@ interface Props extends JSXBase.DOMAttributes {
   source: any[];
   dataLabel?: string;
   filter?: 'contains' | 'start';
+  autocomplete?: string;
   ref?(e: HTMLInputElement): void;
   onInput?(): void;
   onFocus?(): void;
@@ -53,12 +54,11 @@ export const DropdownListFilter = (p: Props) => {
     p.filter = 'contains';
   }
   filterChange(p.filterValue);
+  if (p.autocomplete) {
+    p.value = p.filterValue;
+  }
   return (
-    <input
-      class={{
-        'filter-box': true,
-      }}
-      type="text"
+    <input class={{ 'filter-box': true, }} type="text"
       {...p}
       onClick={e => {
         e.preventDefault();
