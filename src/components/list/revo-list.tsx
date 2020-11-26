@@ -19,6 +19,7 @@ export class RevoDropdownList {
 
   /** Recived keyboard down from element */
   @Listen('keydown', { target: 'document' }) onKey(e: KeyboardEvent) {
+    let item:any;
     if (!this.isFocused) {
       return;
     }
@@ -36,9 +37,16 @@ export class RevoDropdownList {
           this.currentItem++;
         }
         break;
+      case 'Tab':
+        e.preventDefault();
+        item = this.sourceItems[this.currentItem];
+        if (item) {
+          this.doChange.emit({ item: item, e });
+        }
+        break;
       case 'Enter':
         e.preventDefault();
-        const item = this.sourceItems[this.currentItem];
+        item = this.sourceItems[this.currentItem];
         if (item) {
           this.doChange.emit({ item, e });
         }
