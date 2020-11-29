@@ -15,6 +15,14 @@
     "loader/"
   ],
   "author": "revolist",
+  "homepage": "https://github.com/revolist/revodropdown#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/revolist/revodropdown.git"
+  },
+  "bugs": {
+    "url": "https://github.com/revolist/revodropdown/issues"
+  },
   "keywords": [
     "revo-grid",
     "revolist",
