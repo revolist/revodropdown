@@ -12,36 +12,53 @@ After long search we couldn't find any cross platform and had to build our own i
 To start building a new web component using Stencil, clone this repo to a new directory:
 
 ```bash
-git clone https://github.com/revolist/revodropdown.git revo-dropdown
-cd revo-dropdown
-git remote rm origin
+npm i @revolist/revo-dropdown
 ```
 
-and run:
 
-```bash
-npm install
-npm start
+### Module import
+```js
+
+import * as loader from '@revolist/revo-dropdown/loader';
+if (loader.defineCustomElements) {
+  loader.defineCustomElements();
+}
 ```
 
-To build the component for production, run:
-
-```bash
-npm run build
-```
-
-To run the unit tests for the components, run:
-
-```bash
-npm test
-```
-
-Need help? Check out docs [here](https://stenciljs.com/docs/my-first-component).
 
 ### Script tag
 
 - Put a script tag similar to this `<script src='https://unpkg.com/revo-dropdown@latest/dist/revo-dropdown.js'></script>` in the head of your index.html
-- Then you can use the element anywhere in your template, JSX, html etc
+
+### Usage
+
+Then you can use the element anywhere in your template, JSX, html etc
+
+
+```html
+<revo-dropdown data-label="name" autocomplete="true" placeholder="Philosophers" max-height="300"></revo-dropdown>
+```
+
+```js
+<script type="module">
+  const people = [
+  {
+    eyeColor: 'green',
+    name: 'Samantha Molina',
+  },
+  {
+    eyeColor: 'green',
+    name: 'Weber Henderson',
+  }];
+  const dropdowns = document.querySelectorAll('revo-dropdown');
+  for (var q = 0; q < dropdowns.length; q++) {
+    dropdowns[q].source = people;
+  } 
+</script>
+```
+
+Need help? Check out docs [here](https://stenciljs.com/docs/my-first-component).
+
 
 # API
 
