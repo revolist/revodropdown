@@ -69,7 +69,7 @@ revo-dropdown {
   label {
     $time: 200ms;
     font-size: 1rem;
-    z-index: 1;
+    z-index: 100;
     top: 0;
     left: 0;
     position: absolute;
@@ -91,6 +91,7 @@ revo-dropdown {
     padding: 0 8px;
     overflow: hidden;
     position: absolute;
+    z-index: 0;
     border-style: solid;
     border-width: $border-size;
     border-radius: inherit;
@@ -156,6 +157,8 @@ revo-dropdown {
   position: absolute;
   transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 160ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   z-index: 999;
+  display: none;
+  opacity: 0;
 
   &.top .dropdown-inner {
     bottom: 2px;

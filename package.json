@@ -1,6 +1,6 @@
 {
   "name": "@revolist/revo-dropdown",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Minimalistic dropdown with keyboard support and search",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -51,7 +51,7 @@
     "build:angular": "npm run compile-framework --type=angular",
     "build:svelte": "npm run compile-framework --type=svelte",
     "compile-framework": "cp tsconfig.min.json ./framework/$npm_config_type/tsconfig.json && tsc -p ./framework/$npm_config_type --skipLibCheck",
-    "start": "stencil build --dev --watch --serve",
+    "serve": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate",
