@@ -5,7 +5,7 @@ import { reactOutputTarget } from '@stencil/react-output-target';
 import { vueOutputTarget } from '@stencil/vue-output-target';
 import { svelteOutputTarget } from '@stencil/svelte-output-target';
 
-const componentCorePackage = '@revolist/revo-dropdown';
+const componentCorePackage = '../../../src/components';
 const directivesProxyFile = (name: string) => `./framework/${name}/src/revodropdown.ts`;
 export const config: Config = {
   namespace: 'revo-dropdown',
