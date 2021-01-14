@@ -204,8 +204,8 @@ export class RevoDropdown {
 
   private renderDropdown() {
     return (
-      <div {...{ [UUID]: this.uuid }} class="revo-dropdown-list" ref={e => (this.dropdown = e)}>
-        <div class="dropdown-inner" ref={e => (this.dropdownInner = e)}>
+      <div class="revo-dropdown-list" ref={e => (this.dropdown = e)}>
+        <div {...{ [UUID]: this.uuid }} class="dropdown-inner" ref={e => (this.dropdownInner = e)}>
           {this.hasFilter && !this.autocomplete ? (
             <DropdownListFilter
               ref={e => (this.dropdownInput = e)}
