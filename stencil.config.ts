@@ -5,7 +5,7 @@ import { reactOutputTarget } from '@stencil/react-output-target';
 import { vueOutputTarget } from '@stencil/vue-output-target';
 import { svelteOutputTarget } from '@stencil/svelte-output-target';
 
-const componentCorePackage = '../../../src/components';
+const componentCorePackage = '../../../';
 const directivesProxyFile = (name: string) => `./framework/${name}/src/revodropdown.ts`;
 export const config: Config = {
   namespace: 'revo-dropdown',
@@ -31,9 +31,6 @@ export const config: Config = {
     {
       type: 'dist',
       esmLoaderPath: '../loader',
-    },
-    {
-      type: 'dist-custom-elements-bundle',
     },
     {
       type: 'docs-readme',
