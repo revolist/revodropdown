@@ -1,7 +1,7 @@
 dist/
 www/
 loader/
-framework/*/src
+framework/
 
 *~
 *.sw[mnpcod]

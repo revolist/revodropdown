@@ -44,8 +44,8 @@
   ],
   "scripts": {
     "pretty-quick": "pretty-quick",
-    "build": "stencil build --docs",
-    "compile-framework": "tsc -p ./framework/vue --noEmit --noEmitOnError --skipLibCheck --allowUnreachableCode",
+    "build": "rm -rf ./framework && stencil build --docs && npm run compile-framework --type=vue",
+    "compile-framework": "cp tsconfig.json ./framework/$npm_config_type/ && tsc -p ./framework/$npm_config_type --skipLibCheck",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
