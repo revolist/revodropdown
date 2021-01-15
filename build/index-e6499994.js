@@ -1,9 +1,11 @@
 const NAMESPACE = 'revo-dropdown';
-const BUILD = /* revo-dropdown */ { allRenderFn: true, appendChildSlotFix: false, asyncLoading: true, asyncQueue: false, attachStyles: true, cloneNodeFix: false, cmpDidLoad: false, cmpDidRender: true, cmpDidUnload: false, cmpDidUpdate: false, cmpShouldUpdate: false, cmpWillLoad: false, cmpWillRender: false, cmpWillUpdate: false, connectedCallback: true, constructableCSS: false, cssAnnotations: true, cssVarShim: false, devTools: true, disconnectedCallback: true, dynamicImportShim: false, element: false, event: true, hasRenderFn: true, hostListener: true, hostListenerTarget: true, hostListenerTargetBody: false, hostListenerTargetDocument: true, hostListenerTargetParent: false, hostListenerTargetWindow: false, hotModuleReplacement: true, hydrateClientSide: false, hydrateServerSide: false, hydratedAttribute: false, hydratedClass: true, initializeNextTick: false, isDebug: false, isDev: true, isTesting: false, lazyLoad: true, lifecycle: true, lifecycleDOMEvents: false, member: true, method: true, mode: false, observeAttribute: true, profile: true, prop: true, propBoolean: true, propMutable: true, propNumber: true, propString: true, reflect: false, safari10: false, scoped: false, scriptDataOpts: false, shadowDelegatesFocus: false, shadowDom: false, shadowDomShim: false, slot: false, slotChildNodesFix: false, slotRelocation: false, state: true, style: true, svg: true, taskQueue: true, transformTagName: false, updatable: true, vdomAttribute: true, vdomClass: true, vdomFunctional: true, vdomKey: true, vdomListener: true, vdomPropOrAttr: true, vdomRef: true, vdomRender: true, vdomStyle: true, vdomText: true, vdomXlink: true, watchCallback: true };
+const BUILD = /* revo-dropdown */ { allRenderFn: true, appendChildSlotFix: false, asyncLoading: true, asyncQueue: false, attachStyles: true, cloneNodeFix: false, cmpDidLoad: false, cmpDidRender: true, cmpDidUnload: false, cmpDidUpdate: false, cmpShouldUpdate: false, cmpWillLoad: true, cmpWillRender: false, cmpWillUpdate: false, connectedCallback: true, constructableCSS: false, cssAnnotations: true, cssVarShim: false, devTools: true, disconnectedCallback: true, dynamicImportShim: false, element: false, event: true, hasRenderFn: true, hostListener: true, hostListenerTarget: true, hostListenerTargetBody: false, hostListenerTargetDocument: true, hostListenerTargetParent: false, hostListenerTargetWindow: false, hotModuleReplacement: true, hydrateClientSide: false, hydrateServerSide: false, hydratedAttribute: false, hydratedClass: true, initializeNextTick: false, isDebug: false, isDev: true, isTesting: false, lazyLoad: true, lifecycle: true, lifecycleDOMEvents: false, member: true, method: true, mode: false, observeAttribute: true, profile: true, prop: true, propBoolean: true, propMutable: true, propNumber: true, propString: true, reflect: false, safari10: false, scoped: false, scriptDataOpts: false, shadowDelegatesFocus: false, shadowDom: false, shadowDomShim: false, slot: false, slotChildNodesFix: false, slotRelocation: false, state: true, style: true, svg: true, taskQueue: true, transformTagName: false, updatable: true, vdomAttribute: true, vdomClass: true, vdomFunctional: true, vdomKey: true, vdomListener: true, vdomPropOrAttr: true, vdomRef: true, vdomRender: true, vdomStyle: true, vdomText: true, vdomXlink: true, watchCallback: true };
+const Env = /* revo-dropdown */ {};
 
 let scopeId;
 let contentRef;
 let hostTagName;
+let customError;
 let i = 0;
 let useNativeShadowDom = false;
 let checkSlotFallbackVisibility = false;
@@ -82,17 +84,22 @@ const addHostEventListeners = (elm, hostRef, listeners, attachParentListeners) =
     }
 };
 const hostListenerProxy = (hostRef, methodName) => (ev) => {
-    if (BUILD.lazyLoad) {
-        if (hostRef.$flags$ & 256 /* isListenReady */) {
-            // instance is ready, let's call it's member method for this event
-            hostRef.$lazyInstance$[methodName](ev);
+    try {
+        if (BUILD.lazyLoad) {
+            if (hostRef.$flags$ & 256 /* isListenReady */) {
+                // instance is ready, let's call it's member method for this event
+                hostRef.$lazyInstance$[methodName](ev);
+            }
+            else {
+                (hostRef.$queuedListeners$ = hostRef.$queuedListeners$ || []).push([methodName, ev]);
+            }
         }
         else {
-            (hostRef.$queuedListeners$ = hostRef.$queuedListeners$ || []).push([methodName, ev]);
+            hostRef.$hostElement$[methodName](ev);
         }
     }
-    else {
-        hostRef.$hostElement$[methodName](ev);
+    catch (e) {
+        consoleError(e);
     }
 };
 const getHostListenerTarget = (elm, flags) => {
@@ -670,7 +677,7 @@ const createElm = (oldParentVNode, newParentVNode, childIndex, parentElm) => {
         }
     }
     if (BUILD.isDev && newVNode.$elm$) {
-        consoleError(`The JSX ${newVNode.$text$ !== null ? `"${newVNode.$text$}" text` : `"${newVNode.$tag$}" element`} node should not be shared within the same renderer. The renderer caches element lookups in order to improve performance. However, a side effect from this is that the exact same JSX node should not be reused. For more information please see https://stenciljs.com/docs/templating-jsx#avoid-shared-jsx-nodes`);
+        consoleDevError(`The JSX ${newVNode.$text$ !== null ? `"${newVNode.$text$}" text` : `"${newVNode.$tag$}" element`} node should not be shared within the same renderer. The renderer caches element lookups in order to improve performance. However, a side effect from this is that the exact same JSX node should not be reused. For more information please see https://stenciljs.com/docs/templating-jsx#avoid-shared-jsx-nodes`);
     }
     if (BUILD.vdomText && newVNode.$text$ !== null) {
         // create text node
@@ -1367,7 +1374,7 @@ const updateComponent = async (hostRef, instance, isInitialLoad) => {
             }
         }
         catch (e) {
-            consoleError(e);
+            consoleError(e, elm);
         }
     }
     if (BUILD.asyncLoading && rc) {
@@ -1414,7 +1421,7 @@ const callRender = (hostRef, instance) => {
         }
     }
     catch (e) {
-        consoleError(e);
+        consoleError(e, hostRef.$hostElement$);
     }
     renderingRef = null;
     return instance;
@@ -1825,7 +1832,7 @@ const setValue = (ref, propName, newVal, cmpMeta) => {
                             instance[watchMethodName](newVal, oldVal, propName);
                         }
                         catch (e) {
-                            consoleError(e);
+                            consoleError(e, elm);
                         }
                     });
                 }
@@ -1985,7 +1992,7 @@ const initializeComponent = async (elm, hostRef, cmpMeta, hmrVersionId, Cstr) =>
             if (!styles.has(scopeId)) {
                 const endRegisterStyles = createTime('registerStyles', cmpMeta.$tagName$);
                 if (!BUILD.hydrateServerSide && BUILD.shadowDom && BUILD.shadowDomShim && cmpMeta.$flags$ & 8 /* needsShadowDomShim */) {
-                    style = await import('./shadow-css-140c4cf5.js').then(m => m.scopeCss(style, scopeId, false));
+                    style = await import('./shadow-css-3ef739e8.js').then(m => m.scopeCss(style, scopeId, false));
                 }
                 registerStyle(scopeId, style, !!(cmpMeta.$flags$ & 1 /* shadowDomEncapsulation */));
                 endRegisterStyles();
@@ -2227,9 +2234,11 @@ const patchCloneNode = (HostElementPrototype) => {
         const clonedNode = orgCloneNode.call(srcNode, isShadowDom ? deep : false);
         if (BUILD.slot && !isShadowDom && deep) {
             let i = 0;
-            let slotted;
+            let slotted, nonStencilNode;
+            let stencilPrivates = ['s-id', 's-cr', 's-lr', 's-rc', 's-sc', 's-p', 's-cn', 's-sr', 's-sn', 's-hn', 's-ol', 's-nr', 's-si'];
             for (; i < srcNode.childNodes.length; i++) {
                 slotted = srcNode.childNodes[i]['s-nr'];
+                nonStencilNode = stencilPrivates.every((privateField) => !srcNode.childNodes[i][privateField]);
                 if (slotted) {
                     if (BUILD.appendChildSlotFix && clonedNode.__appendChild) {
                         clonedNode.__appendChild(slotted.cloneNode(true));
@@ -2237,6 +2246,9 @@ const patchCloneNode = (HostElementPrototype) => {
                     else {
                         clonedNode.appendChild(slotted.cloneNode(true));
                     }
+                }
+                if (nonStencilNode) {
+                    clonedNode.appendChild(srcNode.childNodes[i].cloneNode(true));
                 }
             }
         }
@@ -2633,7 +2645,8 @@ const insertChildVNodeAnnotations = (doc, vnodeChild, cmpData, hostId, depth, in
     }
     else if (childElm.nodeType === 3 /* TextNode */) {
         const parentNode = childElm.parentNode;
-        if (parentNode.nodeName !== 'STYLE') {
+        const nodeName = parentNode.nodeName;
+        if (nodeName !== 'STYLE' && nodeName !== 'SCRIPT') {
             const textNodeId = `${TEXT_NODE_ID}.${childId}`;
             const commentBeforeTextNode = doc.createComment(textNodeId);
             parentNode.insertBefore(commentBeforeTextNode, childElm);
@@ -2679,13 +2692,14 @@ const registerHost = (elm, cmpMeta) => {
     return hostRefs.set(elm, hostRef);
 };
 const isMemberInElement = (elm, memberName) => memberName in elm;
+const consoleError = (e, el) => (customError || console.error)(e, el);
 const STENCIL_DEV_MODE = BUILD.isTesting
     ? ['STENCIL:'] // E2E testing
     : ['%cstencil', 'color: white;background:#4c47ff;font-weight: bold; font-size:10px; padding:2px 6px; border-radius: 5px'];
 const consoleDevError = (...m) => console.error(...STENCIL_DEV_MODE, ...m);
 const consoleDevWarn = (...m) => console.warn(...STENCIL_DEV_MODE, ...m);
 const consoleDevInfo = (...m) => console.info(...STENCIL_DEV_MODE, ...m);
-const consoleError = (e) => console.error(e);
+const setErrorHandler = (handler) => customError = handler;
 const cmpModules = /*@__PURE__*/ new Map();
 const loadModule = (cmpMeta, hostRef, hmrVersionId) => {
     // loadModuleImport

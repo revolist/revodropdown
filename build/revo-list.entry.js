@@ -1,5 +1,5 @@
-import { r as registerInstance, e as createEvent, h } from './index-3bd4b602.js';
-import { g as getItemLabel } from './item.helpers-a730f109.js';
+import { r as registerInstance, e as createEvent, h } from './index-e6499994.js';
+import { g as getItemLabel } from './item.helpers-be5474dc.js';
 
 const revoListStyleCss = "revo-list{overflow-x:hidden;overflow-y:auto;max-height:100%;display:block}revo-list ul{margin:0;padding:0;outline:0;list-style:none}revo-list ul>li{width:auto;overflow:hidden;font-size:14px;box-sizing:border-box;min-height:48px;font-weight:400;line-height:1.5;padding-top:6px;white-space:nowrap;padding-bottom:6px;padding-left:16px;padding-right:16px;display:flex;position:relative;text-align:left;align-items:center;justify-content:flex-start;text-decoration:none;cursor:pointer}revo-list ul>li.selected{background-color:rgba(0, 0, 0, 0.04)}revo-list ul>li:hover{background-color:rgba(0, 0, 0, 0.04)}";
 
@@ -16,6 +16,7 @@ const RevoDropdownList = class {
   }
   /** Recived keyboard down from element */
   onKey(e) {
+    let item;
     if (!this.isFocused) {
       return;
     }
@@ -33,9 +34,16 @@ const RevoDropdownList = class {
           this.currentItem++;
         }
         break;
+      case 'Tab':
+        e.preventDefault();
+        item = this.sourceItems[this.currentItem];
+        if (item) {
+          this.doChange.emit({ item, e });
+        }
+        break;
       case 'Enter':
         e.preventDefault();
-        const item = this.sourceItems[this.currentItem];
+        item = this.sourceItems[this.currentItem];
         if (item) {
           this.doChange.emit({ item, e });
         }
@@ -49,7 +57,7 @@ const RevoDropdownList = class {
     var _a;
     (_a = this.selectedEl) === null || _a === void 0 ? void 0 : _a.scrollIntoView({
       block: 'nearest',
-      inline: 'nearest'
+      inline: 'nearest',
     });
   }
   render() {
@@ -58,11 +66,17 @@ const RevoDropdownList = class {
     for (let i in this.sourceItems) {
       const item = this.sourceItems[i];
       const isSelected = parseInt(i) === this.currentItem;
-      items.push(h("li", { class: isSelected ? 'selected' : '', ref: e => {
+      const props = {
+        class: { 'selected': isSelected },
+        ref: e => {
           if (isSelected) {
             this.selectedEl = e;
           }
-        }, onClick: (e) => { this.doChange.emit({ item, e }); } }, getItemLabel(item, this.dataLabel)));
+        },
+        onClick: e => this.doChange.emit({ item, e })
+      };
+      const li = h("li", Object.assign({}, props), getItemLabel(item, this.dataLabel));
+      items.push(li);
     }
     return h("ul", null, items);
   }

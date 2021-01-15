@@ -50,15 +50,21 @@
       .tile.small {
         width: 450px;
         height: 150px;
-      }</style> <script type="module" src="/revodropdown/build/revo-dropdown.esm.js"></script> <script nomodule="" src="/revodropdown/build/revo-dropdown.js"></script> </head> <body> <ul class="tile small" style="padding: 20px;"> <li> <div class="sub-title">Autocomplete</div> <revo-dropdown data-label="name" autocomplete="true" placeholder="Philosophers" max-height="300"></revo-dropdown> </li> <li> <div class="sub-title">Regular select</div> <revo-dropdown data-label="name" placeholder="People" max-height="300"></revo-dropdown> </li> <script type="module">import people from "./temp/people.js";
+      }</style> <!--<script type="module" src="/revodropdown/build/revo-dropdown.esm.js"></script>
+    <script nomodule src="/revodropdown/build/revo-dropdown.js"></script>--> <script type="module" src="/build/revo-dropdown.esm.js" data-stencil></script> <script nomodule="" src="/build/revo-dropdown.js" data-stencil></script> </head> <body> <ul class="tile small" style="padding: 20px;"> <li> <div class="sub-title">Autocomplete</div> <revo-dropdown data-label="name" data-id="email" autocomplete="true" placeholder="Philosophers"></revo-dropdown> </li> <li> <div class="sub-title">Regular select</div> <revo-dropdown data-label="name" placeholder="People" max-height="300"></revo-dropdown> </li> <script type="module">
+      import people from "./temp/people.js";
       const dropdowns = document.querySelectorAll('revo-dropdown');
       for (var q = 0; q < dropdowns.length; q++) {
         dropdowns[q].source = people;
-      }</script> </ul><script>if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+      }
+      
+    </script> </ul><script>
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   // auto-unregister service worker during dev mode
   navigator.serviceWorker.getRegistration().then(function(registration) {
   if (registration) {
     registration.unregister().then(function() { location.reload(true) });
   }
   });
-}</script></body></html>
+}
+</script></body></html>
