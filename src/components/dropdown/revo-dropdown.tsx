@@ -128,8 +128,8 @@ export class RevoDropdown {
    * Change value
    */
   @Method() async doChange(val: any, originalEvent?: MouseEvent): Promise<void> {
-    this.value = val;
-    this.changeValue.emit({ val, originalEvent });
+    this.value = getItemValue(val, this.dataId);
+    this.changeValue.emit({ val: this.value, originalEvent });
     if (this.autocompleteInput) {
       this.autocompleteInput.value = getItemLabel(this.currentItem, this.dataLabel);
     }

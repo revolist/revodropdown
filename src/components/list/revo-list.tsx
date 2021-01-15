@@ -41,7 +41,7 @@ export class RevoDropdownList {
         e.preventDefault();
         item = this.sourceItems[this.currentItem];
         if (item) {
-          this.doChange.emit({ item: item, e });
+          this.doChange.emit({ item, e });
         }
         break;
       case 'Enter':
