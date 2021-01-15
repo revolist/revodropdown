@@ -24,11 +24,11 @@
 
 ## Events
 
-| Event         | Description                            | Type                                                     |
-| ------------- | -------------------------------------- | -------------------------------------------------------- |
-| `changeValue` | When value changed                     | `CustomEvent<{ val: any; originalEvent?: MouseEvent; }>` |
-| `close`       | Before element close, can be prevented | `CustomEvent<any>`                                       |
-| `open`        | Before element open, can be prevented  | `CustomEvent<any>`                                       |
+| Event     | Description                            | Type                                                     |
+| --------- | -------------------------------------- | -------------------------------------------------------- |
+| `changed` | When value changed                     | `CustomEvent<{ val: any; originalEvent?: MouseEvent; }>` |
+| `close`   | Before element close, can be prevented | `CustomEvent<any>`                                       |
+| `open`    | Before element open, can be prevented  | `CustomEvent<any>`                                       |
 
 
 ## Methods

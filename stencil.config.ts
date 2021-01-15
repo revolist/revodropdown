@@ -42,7 +42,7 @@ export const config: Config = {
     },
     {
       type: 'www',
-      copy: [{ src: 'temp' }],
+      copy: [{ src: 'temp' }, { src: '../node_modules/vue/dist', dest: 'vue' }],
       serviceWorker: null, // disable service workers
     },
   ],

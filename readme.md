@@ -66,25 +66,31 @@ Need help? Check out docs [here](https://stenciljs.com/docs/my-first-component).
 
 ## Properties
 
-| Property      | Attribute     | Description                              | Type                    | Default      |
-| ------------- | ------------- | ---------------------------------------- | ----------------------- | ------------ |
-| `appendTo`    | `append-to`   | Where to append element                  | `"body" \| "current"`   | `'body'`     |
-| `autoClose`   | `auto-close`  | Should dropdown autoclose on changeValue | `boolean`               | `true`       |
-| `dataId`      | `data-id`     | Define object mapping for id/value       | `string`                | `undefined`  |
-| `dataLabel`   | `data-label`  | Define object mapping for labels         | `string`                | `undefined`  |
-| `filter`      | `filter`      | Filter criteria                          | `"contains" \| "start"` | `'contains'` |
-| `hasFilter`   | `has-filter`  |                                          | `boolean`               | `true`       |
-| `placeholder` | `placeholder` | Placeholder text                         | `string`                | `'Select'`   |
-| `source`      | --            | Define object mapping for id/value       | `any[]`                 | `undefined`  |
-| `value`       | `value`       | Selected value                           | `any`                   | `undefined`  |
+| Property        | Attribute        | Description                              | Type                    | Default     |
+| --------------- | ---------------- | ---------------------------------------- | ----------------------- | ----------- |
+| `appendTo`      | `append-to`      | Where to append element                  | `"body" \| "current"`   | `'body'`    |
+| `autoClose`     | `auto-close`     | Should dropdown autoclose on changeValue | `boolean`               | `true`      |
+| `autoFocus`     | `auto-focus`     |                                          | `boolean`               | `false`     |
+| `autocomplete`  | `autocomplete`   |                                          | `boolean`               | `false`     |
+| `currentFilter` | `current-filter` | Filter value                             | `any`                   | `undefined` |
+| `dataId`        | `data-id`        | Define object mapping for id/value       | `string`                | `undefined` |
+| `dataLabel`     | `data-label`     | Define object mapping for labels         | `string`                | `undefined` |
+| `filter`        | `filter`         | Filter criteria                          | `"contains" \| "start"` | `undefined` |
+| `hasFilter`     | `has-filter`     |                                          | `boolean`               | `true`      |
+| `maxHeight`     | `max-height`     |                                          | `number`                | `undefined` |
+| `placeholder`   | `placeholder`    | Placeholder text                         | `string`                | `'Select'`  |
+| `source`        | --               | Define object mapping for id/value       | `any[]`                 | `[]`        |
+| `value`         | `value`          | Selected value                           | `any`                   | `undefined` |
+
 
 ## Events
 
-| Event         | Description                            | Type                                                     |
-| ------------- | -------------------------------------- | -------------------------------------------------------- |
-| `changeValue` | When value changed                     | `CustomEvent<{ val: any; originalEvent?: MouseEvent; }>` |
-| `close`       | Before element close, can be prevented | `CustomEvent<any>`                                       |
-| `open`        | Before element open, can be prevented  | `CustomEvent<any>`                                       |
+| Event     | Description                            | Type                                                     |
+| --------- | -------------------------------------- | -------------------------------------------------------- |
+| `changed` | When value changed                     | `CustomEvent<{ val: any; originalEvent?: MouseEvent; }>` |
+| `close`   | Before element close, can be prevented | `CustomEvent<any>`                                       |
+| `open`    | Before element open, can be prevented  | `CustomEvent<any>`                                       |
+
 
 ## Methods
 
@@ -96,13 +102,17 @@ Change value
 
 Type: `Promise<void>`
 
-### `doClose() => Promise<void>`
+
+
+### `doClose(isDisconnected?: boolean) => Promise<void>`
 
 Close dropdown
 
 #### Returns
 
 Type: `Promise<void>`
+
+
 
 ### `doOpen() => Promise<void>`
 
@@ -111,20 +121,6 @@ Open dropdown
 #### Returns
 
 Type: `Promise<void>`
-
-## Dependencies
-
-### Depends on
-
-- [revo-list](../list)
-
-### Graph
-
-```mermaid
-graph TD;
-  revo-dropdown --> revo-list
-  style revo-dropdown fill:#f9f,stroke:#333,stroke-width:4px
-```
 
 ---
 

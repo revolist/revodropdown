@@ -124,7 +124,7 @@ declare namespace LocalJSX {
         /**
           * When value changed
          */
-        "onChangeValue"?: (event: CustomEvent<{ val: any; originalEvent?: MouseEvent }>) => void;
+        "onChanged"?: (event: CustomEvent<{ val: any; originalEvent?: MouseEvent }>) => void;
         /**
           * Before element close, can be prevented
          */
@@ -152,7 +152,7 @@ declare namespace LocalJSX {
          */
         "dataLabel"?: string;
         "isFocused"?: boolean;
-        "onDoChange"?: (event: CustomEvent<{ item: any; e: any }>) => void;
+        "onChanged"?: (event: CustomEvent<{ item: any; e: any }>) => void;
         /**
           * Define object mapping for id/value
          */

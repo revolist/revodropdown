@@ -14,9 +14,9 @@
 
 ## Events
 
-| Event      | Description | Type                                  |
-| ---------- | ----------- | ------------------------------------- |
-| `doChange` |             | `CustomEvent<{ item: any; e: any; }>` |
+| Event     | Description | Type                                  |
+| --------- | ----------- | ------------------------------------- |
+| `changed` |             | `CustomEvent<{ item: any; e: any; }>` |
 
 
 ## Methods

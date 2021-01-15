@@ -83,7 +83,7 @@ export class RevoDropdown {
   /**
    * When value changed
    */
-  @Event() changeValue: EventEmitter<{ val: any; originalEvent?: MouseEvent }>;
+  @Event({ eventName: 'changed' }) changeValue: EventEmitter<{ val: any; originalEvent?: MouseEvent }>;
   /**
    * Before element close, can be prevented
    */
@@ -226,7 +226,7 @@ export class RevoDropdown {
             isFocused={true}
             sourceItems={this.currentSource}
             dataLabel={this.dataLabel}
-            onDoChange={e => this.doChange(e.detail.item, e.detail.e)}
+            onChanged={e => this.doChange(e.detail.item, e.detail.e)}
           />
         </div>
       </div>

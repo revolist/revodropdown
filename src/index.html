@@ -63,6 +63,7 @@
     <!--<script type="module" src="/revodropdown/build/revo-dropdown.esm.js"></script>
     <script nomodule src="/revodropdown/build/revo-dropdown.js"></script>-->
     <script type="module" src="/build/revo-dropdown.esm.js"></script>
+    <script  src="/vue/vue.global.prod.js"></script>
     <script nomodule src="/build/revo-dropdown.js"></script>
   </head>
   <body>
@@ -75,7 +76,14 @@
         <div class="sub-title">Regular select</div>
         <revo-dropdown data-label="name" placeholder="People" max-height="300"></revo-dropdown>
       </li>
-    </div>
+    </ul>
+    <br>
+    <ul class="tile small" style="padding: 20px;">
+      <li>
+        <div id="app"></div>
+      </li>
+    </ul>
+
 
     <script type="module">
       import people from "./temp/people.js";
@@ -83,7 +91,20 @@
       for (var q = 0; q < dropdowns.length; q++) {
         dropdowns[q].source = people;
       }
-      
+
+      // vue js test
+      const App = {
+        data: () => ({ source:  people}),
+        template: '<revo-dropdown :source="source" data-label="name" data-id="email" @changed="change"/>',
+        methods: {
+          change(e) {
+            console.log(e);
+          }
+        }
+      };
+      const app = Vue.createApp(App);
+      app.config.isCustomElement = tag => tag.startsWith('revo-');
+      app.mount('#app');
     </script>
   </body>
 </html>

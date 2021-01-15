@@ -15,7 +15,7 @@ export class RevoDropdownList {
    */
   @Prop() dataLabel: string;
 
-  @Event({ bubbles: false }) doChange: EventEmitter<{ item: any; e: any }>;
+  @Event({ bubbles: false }) changed: EventEmitter<{ item: any; e: any }>;
 
   /** Recived keyboard down from element */
   @Listen('keydown', { target: 'document' }) onKey(e: KeyboardEvent) {
@@ -41,14 +41,14 @@ export class RevoDropdownList {
         e.preventDefault();
         item = this.sourceItems[this.currentItem];
         if (item) {
-          this.doChange.emit({ item, e });
+          this.changed.emit({ item, e });
         }
         break;
       case 'Enter':
         e.preventDefault();
         item = this.sourceItems[this.currentItem];
         if (item) {
-          this.doChange.emit({ item, e });
+          this.changed.emit({ item, e });
         }
         break;
     }
@@ -78,7 +78,7 @@ export class RevoDropdownList {
             this.selectedEl = e;
           }
         },
-        onClick: e => this.doChange.emit({ item, e })
+        onClick: e => this.changed.emit({ item, e })
       };
       const li = <li {...props}>{getItemLabel(item, this.dataLabel)}</li>;
       items.push(li);
