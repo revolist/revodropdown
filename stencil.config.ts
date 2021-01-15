@@ -23,6 +23,11 @@ export const config: Config = {
     vueOutputTarget({
       componentCorePackage,
       proxiesFile: directivesProxyFile('vue'),
+      componentModels: [{
+        elements: 'revo-dropdown',
+        event: 'changeValue',
+        targetAttr: 'changeValue'
+      }]
     }),
     svelteOutputTarget({
       componentCorePackage,
