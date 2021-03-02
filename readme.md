@@ -28,7 +28,7 @@ if (loader.defineCustomElements) {
 
 ### Script tag
 
-- Put a script tag similar to this `<script src='https://unpkg.com/revo-dropdown@latest/dist/revo-dropdown.js'></script>` in the head of your index.html
+- Put a script tag similar to this `<script src='https://cdn.jsdelivr.net/npm/@revolist/revo-dropdown@latest/dist/revo-dropdown/revo-dropdown.js'></script>` in the head of your index.html
 
 ### Usage
 
@@ -124,4 +124,3 @@ Type: `Promise<void>`
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_

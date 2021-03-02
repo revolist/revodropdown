@@ -8,6 +8,7 @@ import { svelteOutputTarget } from '@stencil/svelte-output-target';
 const componentCorePackage = '../../../';
 const directivesProxyFile = (name: string) => `./framework/${name}/src/revodropdown.ts`;
 export const config: Config = {
+  buildEs5: 'prod',
   namespace: 'revo-dropdown',
   plugins: [sass()],
   outputTargets: [
