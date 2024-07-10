@@ -2,7 +2,7 @@ import { h } from '@stencil/core';
 import { JSXBase } from '@stencil/core/internal';
 import { getItemLabel } from '../../utils/item.helpers';
 
-interface Props extends JSXBase.DOMAttributes {
+interface Props extends JSXBase.DOMAttributes<HTMLElement> {
   value?: string;
   filterValue?: string;
   source: any[];
