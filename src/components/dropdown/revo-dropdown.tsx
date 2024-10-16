@@ -75,6 +75,13 @@ export class RevoDropdown {
   @Prop() autocomplete: boolean = false;
   @Prop() autoFocus: boolean = false;
 
+  /**
+   * Define your own vnode template
+   * @example
+   * <revo-dropdown template={(h, item) => h('span', null, item.label)} />
+   */
+  @Prop() template?: (h: Function, item: any) => VNode;
+
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -148,7 +155,7 @@ export class RevoDropdown {
   @Listen('mousedown', { target: 'document' })
   onMouseUp(e: MouseEvent): void {
     if (this.isVisible && !e.defaultPrevented) {
-      const isOutside = !(e.target as HTMLElement|null)?.closest(`[${UUID}="${this.uuid}"]`);
+      const isOutside = !(e.target as HTMLElement | null)?.closest(`[${UUID}="${this.uuid}"]`);
       if (isOutside) {
         this.doClose();
       }
@@ -224,9 +231,10 @@ export class RevoDropdown {
           <revo-list
             ref={e => (this.revoList = e)}
             isFocused={true}
+            selectedIndex={this.getValueIndex(this.value)}
             sourceItems={this.currentSource}
-            dataLabel={this.dataLabel}
             onChanged={e => this.doChange(e.detail.item, e.detail.e)}
+            template={item => (this.template ? this.template(h, item) : getItemLabel(item, this.dataLabel))}
           />
         </div>
       </div>
@@ -234,7 +242,7 @@ export class RevoDropdown {
   }
 
   renderSelect() {
-    const val = this.currentItem && getItemLabel(this.currentItem, this.dataLabel) || '';
+    const val = (this.currentItem && getItemLabel(this.currentItem, this.dataLabel)) || '';
     return <input type="text" disabled class="filter-box" value={val} />;
   }
 
@@ -243,7 +251,7 @@ export class RevoDropdown {
     return (
       <DropdownListFilter
         ref={e => (this.autocompleteInput = e)}
-        autocomplete='true'
+        autocomplete="true"
         source={this.source}
         filter={this.filter}
         dataLabel={this.dataLabel}
@@ -285,7 +293,7 @@ export class RevoDropdown {
         shrink: this.isVisible || !!this.currentItem || !!this.autocompleteInput?.value,
       },
       ref: e => (this.element = e),
-      onClick: e => this.selectClick(e)
+      onClick: e => this.selectClick(e),
     };
     if (this.autocomplete) {
       props['autocomplete'] = true;
@@ -295,7 +303,9 @@ export class RevoDropdown {
         <label>{this.placeholder}</label>
         <div class="rv-dr-root">
           {this.autocomplete ? this.renderAutocomplete() : this.renderSelect()}
-          <span class="actions"><ArrowRenderer/></span>
+          <span class="actions">
+            <ArrowRenderer />
+          </span>
           <fieldset>
             <legend>
               <span>{this.placeholder}</span>
@@ -312,6 +322,18 @@ export class RevoDropdown {
       this.isVisible = true;
     }
     this.isClosing = false;
+  }
+
+  private getValueIndex(newVal: any) {
+    let i = 0;
+    for (let index in this.source) {
+      const item = this.source[index];
+      if (newVal == getItemValue(item, this.dataId)) {
+        return i;
+      }
+      i++;
+    }
+    return -1;
   }
 
   private getValue(newVal: any) {
@@ -352,7 +374,7 @@ export class RevoDropdown {
       display: string;
     } = {
       opacity: 1,
-      display: 'block'
+      display: 'block',
     };
 
     // top
@@ -402,8 +424,9 @@ export class RevoDropdown {
   }
 
   private uuidv4(stamp: number) {
-    return `${stamp}-xx-y`.replace(/[xy]/g, (c) => {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return `${stamp}-xx-y`.replace(/[xy]/g, c => {
+      var r = (Math.random() * 16) | 0,
+        v = c == 'x' ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     });
   }

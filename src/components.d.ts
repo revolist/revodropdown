@@ -5,6 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { VNode } from "@stencil/core";
+export { VNode } from "@stencil/core";
 export namespace Components {
     interface RevoDropdown {
         /**
@@ -55,22 +57,24 @@ export namespace Components {
           * Define object mapping for id/value
          */
         "source": any[];
+        "template"?: (h: Function, item: any) => VNode;
         /**
           * Selected value
          */
         "value": any;
     }
     interface RevoList {
-        /**
-          * Define object mapping for labels
-         */
-        "dataLabel": string;
         "isFocused": boolean;
         "refresh": (source: any[]) => Promise<void>;
+        /**
+          * Selected Value Index
+         */
+        "selectedIndex": number;
         /**
           * Define object mapping for id/value
          */
         "sourceItems": any[];
+        "template": (item: any) => VNode;
     }
 }
 export interface RevoDropdownCustomEvent<T> extends CustomEvent<T> {
@@ -173,22 +177,24 @@ declare namespace LocalJSX {
           * Define object mapping for id/value
          */
         "source"?: any[];
+        "template"?: (h: Function, item: any) => VNode;
         /**
           * Selected value
          */
         "value"?: any;
     }
     interface RevoList {
-        /**
-          * Define object mapping for labels
-         */
-        "dataLabel"?: string;
         "isFocused"?: boolean;
         "onChanged"?: (event: RevoListCustomEvent<{ item: any; e: any }>) => void;
+        /**
+          * Selected Value Index
+         */
+        "selectedIndex"?: number;
         /**
           * Define object mapping for id/value
          */
         "sourceItems"?: any[];
+        "template": (item: any) => VNode;
     }
     interface IntrinsicElements {
         "revo-dropdown": RevoDropdown;

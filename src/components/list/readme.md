@@ -5,11 +5,12 @@
 
 ## Properties
 
-| Property      | Attribute    | Description                        | Type      | Default     |
-| ------------- | ------------ | ---------------------------------- | --------- | ----------- |
-| `dataLabel`   | `data-label` | Define object mapping for labels   | `string`  | `undefined` |
-| `isFocused`   | `is-focused` |                                    | `boolean` | `false`     |
-| `sourceItems` | --           | Define object mapping for id/value | `any[]`   | `[]`        |
+| Property                | Attribute        | Description                        | Type                   | Default     |
+| ----------------------- | ---------------- | ---------------------------------- | ---------------------- | ----------- |
+| `isFocused`             | `is-focused`     |                                    | `boolean`              | `false`     |
+| `selectedIndex`         | `selected-index` | Selected Value Index               | `number`               | `0`         |
+| `sourceItems`           | --               | Define object mapping for id/value | `any[]`                | `[]`        |
+| `template` _(required)_ | --               |                                    | `(item: any) => VNode` | `undefined` |
 
 
 ## Events
