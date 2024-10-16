@@ -57,6 +57,10 @@ export namespace Components {
           * Define object mapping for id/value
          */
         "source": any[];
+        /**
+          * Define your own vnode template
+          * @example <revo-dropdown template={(h, item) => h('span', null, item.label)} />
+         */
         "template"?: (h: Function, item: any) => VNode;
         /**
           * Selected value
@@ -177,6 +181,10 @@ declare namespace LocalJSX {
           * Define object mapping for id/value
          */
         "source"?: any[];
+        /**
+          * Define your own vnode template
+          * @example <revo-dropdown template={(h, item) => h('span', null, item.label)} />
+         */
         "template"?: (h: Function, item: any) => VNode;
         /**
           * Selected value

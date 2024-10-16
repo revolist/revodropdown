@@ -19,7 +19,7 @@
 | `maxHeight`     | `max-height`     |                                          | `number`                            | `undefined` |
 | `placeholder`   | `placeholder`    | Placeholder text                         | `string`                            | `'Select'`  |
 | `source`        | --               | Define object mapping for id/value       | `any[]`                             | `[]`        |
-| `template`      | --               |                                          | `(h: Function, item: any) => VNode` | `undefined` |
+| `template`      | --               | Define your own vnode template           | `(h: Function, item: any) => VNode` | `undefined` |
 | `value`         | `value`          | Selected value                           | `any`                               | `undefined` |
 
 
