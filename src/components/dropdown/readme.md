@@ -5,21 +5,22 @@
 
 ## Properties
 
-| Property        | Attribute        | Description                              | Type                    | Default     |
-| --------------- | ---------------- | ---------------------------------------- | ----------------------- | ----------- |
-| `appendTo`      | `append-to`      | Where to append element                  | `"body" \| "current"`   | `'body'`    |
-| `autoClose`     | `auto-close`     | Should dropdown autoclose on changeValue | `boolean`               | `true`      |
-| `autoFocus`     | `auto-focus`     |                                          | `boolean`               | `false`     |
-| `autocomplete`  | `autocomplete`   |                                          | `boolean`               | `false`     |
-| `currentFilter` | `current-filter` | Filter value                             | `any`                   | `undefined` |
-| `dataId`        | `data-id`        | Define object mapping for id/value       | `string`                | `undefined` |
-| `dataLabel`     | `data-label`     | Define object mapping for labels         | `string`                | `undefined` |
-| `filter`        | `filter`         | Filter criteria                          | `"contains" \| "start"` | `undefined` |
-| `hasFilter`     | `has-filter`     |                                          | `boolean`               | `true`      |
-| `maxHeight`     | `max-height`     |                                          | `number`                | `undefined` |
-| `placeholder`   | `placeholder`    | Placeholder text                         | `string`                | `'Select'`  |
-| `source`        | --               | Define object mapping for id/value       | `any[]`                 | `[]`        |
-| `value`         | `value`          | Selected value                           | `any`                   | `undefined` |
+| Property        | Attribute        | Description                              | Type                                | Default     |
+| --------------- | ---------------- | ---------------------------------------- | ----------------------------------- | ----------- |
+| `appendTo`      | `append-to`      | Where to append element                  | `"body" \| "current"`               | `'body'`    |
+| `autoClose`     | `auto-close`     | Should dropdown autoclose on changeValue | `boolean`                           | `true`      |
+| `autoFocus`     | `auto-focus`     |                                          | `boolean`                           | `false`     |
+| `autocomplete`  | `autocomplete`   |                                          | `boolean`                           | `false`     |
+| `currentFilter` | `current-filter` | Filter value                             | `any`                               | `undefined` |
+| `dataId`        | `data-id`        | Define object mapping for id/value       | `string`                            | `undefined` |
+| `dataLabel`     | `data-label`     | Define object mapping for labels         | `string`                            | `undefined` |
+| `filter`        | `filter`         | Filter criteria                          | `"contains" \| "start"`             | `undefined` |
+| `hasFilter`     | `has-filter`     |                                          | `boolean`                           | `true`      |
+| `maxHeight`     | `max-height`     |                                          | `number`                            | `undefined` |
+| `placeholder`   | `placeholder`    | Placeholder text                         | `string`                            | `'Select'`  |
+| `source`        | --               | Define object mapping for id/value       | `any[]`                             | `[]`        |
+| `template`      | --               | Define your own vnode template           | `(h: Function, item: any) => VNode` | `undefined` |
+| `value`         | `value`          | Selected value                           | `any`                               | `undefined` |
 
 
 ## Events
@@ -37,6 +38,13 @@
 
 Change value
 
+#### Parameters
+
+| Name            | Type         | Description |
+| --------------- | ------------ | ----------- |
+| `val`           | `any`        |             |
+| `originalEvent` | `MouseEvent` |             |
+
 #### Returns
 
 Type: `Promise<void>`
@@ -46,6 +54,12 @@ Type: `Promise<void>`
 ### `doClose(isDisconnected?: boolean) => Promise<void>`
 
 Close dropdown
+
+#### Parameters
+
+| Name             | Type      | Description |
+| ---------------- | --------- | ----------- |
+| `isDisconnected` | `boolean` |             |
 
 #### Returns
 

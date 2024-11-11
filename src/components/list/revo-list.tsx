@@ -1,5 +1,4 @@
-import { Component, h, Prop, Event, EventEmitter, Method, Listen, State } from '@stencil/core';
-import { getItemLabel } from '../../utils/item.helpers';
+import { Component, h, Prop, Event, EventEmitter, Method, Listen, State, Watch, VNode } from '@stencil/core';
 
 @Component({ tag: 'revo-list', styleUrl: 'revo-list.style.scss' })
 export class RevoDropdownList {
@@ -10,16 +9,19 @@ export class RevoDropdownList {
    */
   @Prop() sourceItems: any[] = [];
   @Prop() isFocused: boolean = false;
+
   /**
-   * Define object mapping for labels
+   * Selected Value Index
    */
-  @Prop() dataLabel: string;
+  @Prop() selectedIndex = 0;
+
+  @Prop() template!: (item: any) => VNode;
 
   @Event({ bubbles: false }) changed: EventEmitter<{ item: any; e: any }>;
 
   /** Recived keyboard down from element */
   @Listen('keydown', { target: 'document' }) onKey(e: KeyboardEvent) {
-    let item:any;
+    let item: any;
     if (!this.isFocused) {
       return;
     }
@@ -58,6 +60,14 @@ export class RevoDropdownList {
     this.sourceItems = source;
   }
 
+  @Watch('selectedIndex') valueChanged(newV: number) {
+    this.currentItem = newV;
+  }
+
+  componentWillLoad() {
+    this.valueChanged(this.selectedIndex);
+  }
+
   componentDidRender() {
     this.selectedEl?.scrollIntoView({
       block: 'nearest',
@@ -72,15 +82,15 @@ export class RevoDropdownList {
       const item = this.sourceItems[i];
       const isSelected = parseInt(i) === this.currentItem;
       const props = {
-        class: { 'selected': isSelected },
+        class: { selected: isSelected },
         ref: e => {
           if (isSelected) {
             this.selectedEl = e;
           }
         },
-        onClick: e => this.changed.emit({ item, e })
+        onClick: e => this.changed.emit({ item, e }),
       };
-      const li = <li {...props}>{getItemLabel(item, this.dataLabel)}</li>;
+      const li = <li {...props}>{this.template(item)}</li>;
       items.push(li);
     }
     return <ul>{items}</ul>;
