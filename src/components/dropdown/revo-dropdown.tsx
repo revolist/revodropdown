@@ -62,7 +62,7 @@ export class RevoDropdown {
   /**
    * Where to append element
    */
-  @Prop() appendTo: 'body' | 'current' = 'body';
+  @Prop() appendTo: 'body' | 'current' | string = 'body';
   /**
    * Filter criteria
    */
@@ -193,8 +193,15 @@ export class RevoDropdown {
   }
 
   componentDidRender() {
-    if (this.dropdown && this.appendTo === 'body') {
-      document.body.appendChild(this.dropdown);
+    if (this.dropdown) {
+      if (this.appendTo === 'body') {
+        document.body.appendChild(this.dropdown);
+      } else if (this.appendTo !== 'current' && typeof this.appendTo === 'string') {
+        const el: HTMLElement = document.querySelector(this.appendTo);
+        if (el instanceof HTMLElement) {
+          el.appendChild(this.dropdown);
+        }
+      }
     }
     if (this.isVisible) {
       this.updateStyles();
