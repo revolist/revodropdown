@@ -12,7 +12,7 @@ export namespace Components {
         /**
           * Where to append element
          */
-        "appendTo": 'body' | 'current';
+        "appendTo": 'body' | 'current' | string;
         /**
           * Should dropdown autoclose on changeValue
          */
@@ -136,7 +136,7 @@ declare namespace LocalJSX {
         /**
           * Where to append element
          */
-        "appendTo"?: 'body' | 'current';
+        "appendTo"?: 'body' | 'current' | string;
         /**
           * Should dropdown autoclose on changeValue
          */
