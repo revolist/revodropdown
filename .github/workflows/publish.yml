@@ -5,9 +5,8 @@ on:
   release:
     types: [created]
 
-permissions:
-  contents: read
-  id-token: write
+
+permissions: write-all
 
 concurrency:
   group: publish-revo-dropdown
