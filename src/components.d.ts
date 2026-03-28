@@ -11,13 +11,21 @@ export namespace Components {
     interface RevoDropdown {
         /**
           * Where to append element
+          * @default 'body'
          */
         "appendTo": 'body' | 'current' | string;
         /**
           * Should dropdown autoclose on changeValue
+          * @default true
          */
         "autoClose": boolean;
+        /**
+          * @default false
+         */
         "autoFocus": boolean;
+        /**
+          * @default false
+         */
         "autocomplete": boolean;
         /**
           * Filter value
@@ -47,14 +55,19 @@ export namespace Components {
           * Filter criteria
          */
         "filter": 'contains' | 'start';
+        /**
+          * @default true
+         */
         "hasFilter": boolean;
         "maxHeight": number;
         /**
           * Placeholder text
+          * @default 'Select'
          */
         "placeholder": string;
         /**
           * Define object mapping for id/value
+          * @default []
          */
         "source": any[];
         /**
@@ -68,16 +81,21 @@ export namespace Components {
         "value": any;
     }
     interface RevoList {
+        /**
+          * @default false
+         */
         "isFocused": boolean;
         "moveSelection": (step: number) => Promise<void>;
         "refresh": (source: any[]) => Promise<void>;
         "selectCurrent": (e: KeyboardEvent) => Promise<void>;
         /**
           * Selected Value Index
+          * @default 0
          */
         "selectedIndex": number;
         /**
           * Define object mapping for id/value
+          * @default []
          */
         "sourceItems": any[];
         "template": (item: any) => VNode;
@@ -137,13 +155,21 @@ declare namespace LocalJSX {
     interface RevoDropdown {
         /**
           * Where to append element
+          * @default 'body'
          */
         "appendTo"?: 'body' | 'current' | string;
         /**
           * Should dropdown autoclose on changeValue
+          * @default true
          */
         "autoClose"?: boolean;
+        /**
+          * @default false
+         */
         "autoFocus"?: boolean;
+        /**
+          * @default false
+         */
         "autocomplete"?: boolean;
         /**
           * Filter value
@@ -161,6 +187,9 @@ declare namespace LocalJSX {
           * Filter criteria
          */
         "filter"?: 'contains' | 'start';
+        /**
+          * @default true
+         */
         "hasFilter"?: boolean;
         "maxHeight"?: number;
         /**
@@ -177,10 +206,12 @@ declare namespace LocalJSX {
         "onOpen"?: (event: RevoDropdownCustomEvent<any>) => void;
         /**
           * Placeholder text
+          * @default 'Select'
          */
         "placeholder"?: string;
         /**
           * Define object mapping for id/value
+          * @default []
          */
         "source"?: any[];
         /**
@@ -194,29 +225,54 @@ declare namespace LocalJSX {
         "value"?: any;
     }
     interface RevoList {
+        /**
+          * @default false
+         */
         "isFocused"?: boolean;
         "onChanged"?: (event: RevoListCustomEvent<{ item: any; e: any }>) => void;
         /**
           * Selected Value Index
+          * @default 0
          */
         "selectedIndex"?: number;
         /**
           * Define object mapping for id/value
+          * @default []
          */
         "sourceItems"?: any[];
         "template": (item: any) => VNode;
     }
+
+    interface RevoDropdownAttributes {
+        "dataLabel": string;
+        "value": string;
+        "currentFilter": string;
+        "dataId": string;
+        "autoClose": boolean;
+        "placeholder": string;
+        "appendTo": 'body' | 'current' | string;
+        "filter": 'contains' | 'start';
+        "maxHeight": number;
+        "hasFilter": boolean;
+        "autocomplete": boolean;
+        "autoFocus": boolean;
+    }
+    interface RevoListAttributes {
+        "isFocused": boolean;
+        "selectedIndex": number;
+    }
+
     interface IntrinsicElements {
-        "revo-dropdown": RevoDropdown;
-        "revo-list": RevoList;
+        "revo-dropdown": Omit<RevoDropdown, keyof RevoDropdownAttributes> & { [K in keyof RevoDropdown & keyof RevoDropdownAttributes]?: RevoDropdown[K] } & { [K in keyof RevoDropdown & keyof RevoDropdownAttributes as `attr:${K}`]?: RevoDropdownAttributes[K] } & { [K in keyof RevoDropdown & keyof RevoDropdownAttributes as `prop:${K}`]?: RevoDropdown[K] };
+        "revo-list": Omit<RevoList, keyof RevoListAttributes> & { [K in keyof RevoList & keyof RevoListAttributes]?: RevoList[K] } & { [K in keyof RevoList & keyof RevoListAttributes as `attr:${K}`]?: RevoListAttributes[K] } & { [K in keyof RevoList & keyof RevoListAttributes as `prop:${K}`]?: RevoList[K] };
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "revo-dropdown": LocalJSX.RevoDropdown & JSXBase.HTMLAttributes<HTMLRevoDropdownElement>;
-            "revo-list": LocalJSX.RevoList & JSXBase.HTMLAttributes<HTMLRevoListElement>;
+            "revo-dropdown": LocalJSX.IntrinsicElements["revo-dropdown"] & JSXBase.HTMLAttributes<HTMLRevoDropdownElement>;
+            "revo-list": LocalJSX.IntrinsicElements["revo-list"] & JSXBase.HTMLAttributes<HTMLRevoListElement>;
         }
     }
 }
