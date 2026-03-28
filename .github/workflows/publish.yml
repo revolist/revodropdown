@@ -23,8 +23,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: 22.x
+          registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
         run: |
@@ -42,7 +42,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          registry-url: 'https://npm.pkg.github.com'
+          registry-url: https://npm.pkg.github.com
           # Defaults to the user or organization that owns the workflow file
           scope: '@revolist'
       # Publish to GitHub Packages
