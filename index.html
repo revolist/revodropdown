@@ -51,20 +51,25 @@
         width: 450px;
         height: 150px;
       }</style> <!--<script type="module" src="/revodropdown/build/revo-dropdown.esm.js"></script>
-    <script nomodule src="/revodropdown/build/revo-dropdown.js"></script>--> <script type="module" src="/build/revo-dropdown.esm.js" data-stencil></script> <script nomodule="" src="/build/revo-dropdown.js" data-stencil></script> </head> <body> <ul class="tile small" style="padding: 20px;"> <li> <div class="sub-title">Autocomplete</div> <revo-dropdown data-label="name" data-id="email" autocomplete="true" placeholder="Philosophers"></revo-dropdown> </li> <li> <div class="sub-title">Regular select</div> <revo-dropdown data-label="name" placeholder="People" max-height="300"></revo-dropdown> </li> <script type="module">
+    <script nomodule src="/revodropdown/build/revo-dropdown.js"></script>--> <link rel="modulepreload" href="/build/p-DxWy0IDv.js"><script type="module" data-stencil data-resources-url="/build/" data-stencil-namespace="revo-dropdown">import{p as e,b as o}from"/build/p-DxWy0IDv.js";export{s as setNonce}from"/build/p-DxWy0IDv.js";import{g as t}from"/build/p-DQuL1Twl.js";(()=>{const o=import.meta.url,t={};return""!==o&&(t.resourcesUrl=new URL(".",o).href),e(t)})().then((async e=>(await t(),o([["p-663fbb20",[[0,"revo-dropdown",{dataLabel:[1,"data-label"],value:[1032],currentFilter:[1032,"current-filter"],dataId:[1,"data-id"],autoClose:[4,"auto-close"],source:[16],placeholder:[1],appendTo:[1,"append-to"],filter:[1],maxHeight:[2,"max-height"],hasFilter:[4,"has-filter"],autocomplete:[4],autoFocus:[4,"auto-focus"],template:[16],currentItem:[32],isVisible:[32],doClose:[64],doOpen:[64],doChange:[64]},[[5,"mousedown","onMouseUp"],[4,"keydown","onKey"]],{value:[{onValueChanged:0}]}],[0,"revo-list",{sourceItems:[16],isFocused:[4,"is-focused"],selectedIndex:[2,"selected-index"],template:[16],currentItem:[32],moveSelection:[64],selectCurrent:[64],refresh:[64]},[[4,"keydown","onKey"]],{selectedIndex:[{valueChanged:0}]}]]]],e))));
+</script> <script src="/vue/vue.global.prod.js"></script> <script nomodule="" src="/build/revo-dropdown.js" data-stencil></script> </head> <body> <ul class="tile small" style="padding: 20px;"> <li> <div class="sub-title">Autocomplete</div> <revo-dropdown data-label="name" data-id="email" autocomplete="true" placeholder="Philosophers"></revo-dropdown> </li> <li> <div class="sub-title">Regular select</div> <revo-dropdown data-label="name" placeholder="People" max-height="300"></revo-dropdown> </li> </ul> <br> <ul class="tile small" style="padding: 20px;"> <li> <div id="app"></div> </li> </ul> <script type="module">
       import people from "./temp/people.js";
       const dropdowns = document.querySelectorAll('revo-dropdown');
       for (var q = 0; q < dropdowns.length; q++) {
         dropdowns[q].source = people;
       }
-      
-    </script> </ul><script>
-if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-  // auto-unregister service worker during dev mode
-  navigator.serviceWorker.getRegistration().then(function(registration) {
-  if (registration) {
-    registration.unregister().then(function() { location.reload(true) });
-  }
-  });
-}
-</script></body></html>
+
+      // vue js test
+      const App = {
+        data: () => ({ source:  people}),
+        template: '<revo-dropdown :source="source" data-label="name" data-id="email" @changed="change"/>',
+        methods: {
+          change(e) {
+            console.log(e);
+          }
+        }
+      };
+      const app = Vue.createApp(App);
+      app.config.isCustomElement = tag => tag.startsWith('revo-');
+      app.mount('#app');
+    </script> </body></html>
