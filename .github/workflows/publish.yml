@@ -1,31 +1,42 @@
-name: Node.js Package
+name: Publish to npm
+
 on:
+  workflow_dispatch:
   release:
     types: [created]
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: publish-revo-dropdown
+  cancel-in-progress: false
+
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v4
-    # Setup .npmrc file to publish to npm
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '22.x'
-        registry-url: 'https://registry.npmjs.org'
-    - run: npm install
-    # Build
-    - run: npm run build
-    # Publish to npm
-    - run: npm publish --access public
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-    # Setup .npmrc file to publish to GitHub Packages
-    - uses: actions/setup-node@v4
-      with:
-        registry-url: 'https://npm.pkg.github.com'
-        # Defaults to the user or organization that owns the workflow file
-        scope: '@revolist'
-    # Publish to GitHub Packages
-    - run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build package
+        run: npm run build
+
+      - name: Verify publish contents
+        run: npm pack --dry-run
+
+      - name: Publish to npm
+        run: npm publish --access public --provenance
