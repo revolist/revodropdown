@@ -12,7 +12,7 @@ export namespace Components {
         /**
           * Where to append element
          */
-        "appendTo": 'body' | 'current';
+        "appendTo": 'body' | 'current' | string;
         /**
           * Should dropdown autoclose on changeValue
          */
@@ -69,7 +69,9 @@ export namespace Components {
     }
     interface RevoList {
         "isFocused": boolean;
+        "moveSelection": (step: number) => Promise<void>;
         "refresh": (source: any[]) => Promise<void>;
+        "selectCurrent": (e: KeyboardEvent) => Promise<void>;
         /**
           * Selected Value Index
          */
@@ -136,7 +138,7 @@ declare namespace LocalJSX {
         /**
           * Where to append element
          */
-        "appendTo"?: 'body' | 'current';
+        "appendTo"?: 'body' | 'current' | string;
         /**
           * Should dropdown autoclose on changeValue
          */

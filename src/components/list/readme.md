@@ -22,6 +22,22 @@
 
 ## Methods
 
+### `moveSelection(step: number) => Promise<void>`
+
+
+
+#### Parameters
+
+| Name   | Type     | Description |
+| ------ | -------- | ----------- |
+| `step` | `number` |             |
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 ### `refresh(source: any[]) => Promise<void>`
 
 
@@ -31,6 +47,22 @@
 | Name     | Type    | Description |
 | -------- | ------- | ----------- |
 | `source` | `any[]` |             |
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+### `selectCurrent(e: KeyboardEvent) => Promise<void>`
+
+
+
+#### Parameters
+
+| Name | Type            | Description |
+| ---- | --------------- | ----------- |
+| `e`  | `KeyboardEvent` |             |
 
 #### Returns
 

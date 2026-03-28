@@ -7,7 +7,7 @@
 
 | Property        | Attribute        | Description                              | Type                                | Default     |
 | --------------- | ---------------- | ---------------------------------------- | ----------------------------------- | ----------- |
-| `appendTo`      | `append-to`      | Where to append element                  | `"body" \| "current"`               | `'body'`    |
+| `appendTo`      | `append-to`      | Where to append element                  | `string`                            | `'body'`    |
 | `autoClose`     | `auto-close`     | Should dropdown autoclose on changeValue | `boolean`                           | `true`      |
 | `autoFocus`     | `auto-focus`     |                                          | `boolean`                           | `false`     |
 | `autocomplete`  | `autocomplete`   |                                          | `boolean`                           | `false`     |

@@ -19,39 +19,42 @@ export class RevoDropdownList {
 
   @Event({ bubbles: false }) changed: EventEmitter<{ item: any; e: any }>;
 
+  @Method() async moveSelection(step: number) {
+    const nextIndex = this.currentItem + step;
+    if (nextIndex < 0 || nextIndex >= this.sourceItems.length) {
+      return;
+    }
+    this.currentItem = nextIndex;
+  }
+
+  @Method() async selectCurrent(e: KeyboardEvent) {
+    const item = this.sourceItems[this.currentItem];
+    if (item) {
+      this.changed.emit({ item, e });
+    }
+  }
+
   /** Recived keyboard down from element */
   @Listen('keydown', { target: 'document' }) onKey(e: KeyboardEvent) {
-    let item: any;
     if (!this.isFocused) {
       return;
     }
     switch (e.code) {
       case 'ArrowUp':
         e.preventDefault();
-        if (this.currentItem <= 0) {
-          return;
-        }
-        this.currentItem--;
+        this.moveSelection(-1);
         break;
       case 'ArrowDown':
         e.preventDefault();
-        if (this.sourceItems[this.currentItem + 1]) {
-          this.currentItem++;
-        }
+        this.moveSelection(1);
         break;
       case 'Tab':
         e.preventDefault();
-        item = this.sourceItems[this.currentItem];
-        if (item) {
-          this.changed.emit({ item, e });
-        }
+        this.selectCurrent(e);
         break;
       case 'Enter':
         e.preventDefault();
-        item = this.sourceItems[this.currentItem];
-        if (item) {
-          this.changed.emit({ item, e });
-        }
+        this.selectCurrent(e);
         break;
     }
   }

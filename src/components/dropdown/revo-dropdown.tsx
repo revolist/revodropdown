@@ -216,6 +216,38 @@ export class RevoDropdown {
     }
   }
 
+  private onInputKeyDown(e: KeyboardEvent) {
+    if (!this.isVisible) {
+      switch (e.code) {
+        case 'ArrowUp':
+        case 'ArrowDown':
+          e.preventDefault();
+          this.showAutoComplete();
+          break;
+      }
+      return;
+    }
+
+    switch (e.code) {
+      case 'ArrowUp':
+        e.preventDefault();
+        e.stopPropagation();
+        this.revoList?.moveSelection(-1);
+        break;
+      case 'ArrowDown':
+        e.preventDefault();
+        e.stopPropagation();
+        this.revoList?.moveSelection(1);
+        break;
+      case 'Tab':
+      case 'Enter':
+        e.preventDefault();
+        e.stopPropagation();
+        this.revoList?.selectCurrent(e);
+        break;
+    }
+  }
+
   private renderDropdown() {
     return (
       <div class="revo-dropdown-list" ref={e => (this.dropdown = e)}>
@@ -228,6 +260,7 @@ export class RevoDropdown {
               dataLabel={this.dataLabel}
               value={this.currentFilter || ''}
               filterValue={this.currentFilter || ''}
+              onKeyDown={e => this.onInputKeyDown(e)}
               onFilterChange={e => {
                 this.currentFilter = e.value;
                 this.currentSource = e.items;
@@ -264,18 +297,7 @@ export class RevoDropdown {
         dataLabel={this.dataLabel}
         value={val}
         filterValue={this.currentFilter}
-        onKeyDown={e => {
-          if (this.isVisible) {
-            return;
-          }
-          switch (e.code) {
-            case 'ArrowUp':
-            case 'ArrowDown':
-              e.preventDefault();
-              this.showAutoComplete();
-              break;
-          }
-        }}
+        onKeyDown={e => this.onInputKeyDown(e)}
         onInput={() => this.showAutoComplete()}
         onFocus={() => this.showAutoComplete()}
         onClick={() => this.showAutoComplete()}
