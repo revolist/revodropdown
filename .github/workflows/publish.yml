@@ -2,6 +2,8 @@ name: Node.js Package
 on:
   release:
     types: [created]
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,3 +31,17 @@ jobs:
     - run: npm publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Generate SBOM (SPDX)
+      uses: anchore/sbom-action@v0
+      with:
+        path: .
+        format: spdx-json
+        output-file: sbom.spdx.json
+        upload-release-assets: true
+    - name: Generate SBOM (CycloneDX)
+      uses: anchore/sbom-action@v0
+      with:
+        path: .
+        format: cyclonedx-json
+        output-file: sbom.cdx.json
+        upload-release-assets: true
