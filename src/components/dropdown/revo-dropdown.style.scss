@@ -31,12 +31,15 @@ revo-dropdown {
     position: relative;
     border-radius: 4px;
 
-    cursor: text;
     display: inline-flex;
     position: relative;
     font-size: 1rem;
     box-sizing: border-box;
     align-items: center;
+  }
+
+  &[autocomplete] .rv-dr-root {
+    cursor: text;
   }
 
   input.filter-box {
@@ -57,6 +60,10 @@ revo-dropdown {
 
     &:focus {
       outline: none;
+    }
+
+    &:disabled {
+      pointer-events: none;
     }
   }
 
@@ -155,10 +162,24 @@ revo-dropdown {
   @include fontStyle;
 
   position: absolute;
-  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 160ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   z-index: 999;
   display: none;
   opacity: 0;
+
+  &.animated .dropdown-inner {
+    transform-origin: top center;
+    animation: rv-dropdown-open 260ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  &.animated.top .dropdown-inner {
+    transform-origin: bottom center;
+    animation-name: rv-dropdown-open-top;
+  }
+
+  &.no-animation .dropdown-inner {
+    animation: none;
+  }
 
   &.top .dropdown-inner {
     bottom: 2px;
@@ -194,10 +215,17 @@ revo-dropdown {
     border-radius: 4px;
     color: rgba(0, 0, 0, 0.87);
     overflow: hidden;
-    background-color: #fff;
+    background-color: var(--rv-dropdown-bg, #fff);
+    border-color: var(--rv-dropdown-border, rgb(0 0 0 / 8%));
+    color: var(--rv-dropdown-color, rgba(0, 0, 0, 0.87));
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
 
     .filter-box {
       border: 1px solid $border-color;
+      background: var(--rv-dropdown-input-bg, #fff);
+      border-color: var(--rv-dropdown-border, $border-color);
+      color: var(--rv-dropdown-color, rgba(0, 0, 0, 0.87));
+      -webkit-text-fill-color: currentColor;
       min-height: 30px;
       line-height: 30px;
       margin: 10px;
@@ -208,5 +236,29 @@ revo-dropdown {
         border-color: #0089ff;
       }
     }
+  }
+}
+
+@keyframes rv-dropdown-open {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes rv-dropdown-open-top {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }

@@ -1,9 +1,12 @@
-import { Component, Prop, h, VNode, State, Listen, Event, EventEmitter, Method, Watch, Host } from '@stencil/core';
+import { Component, Prop, h, VNode, State, Listen, Event as StencilEvent, EventEmitter, Method, Watch, Host } from '@stencil/core';
 import '../../utils/closestPolifill';
 import { UUID } from '../../utils/consts';
 import { getItemLabel, getItemValue } from '../../utils/item.helpers';
 import { DropdownListFilter } from '../list/revo-list.filter';
 import { ArrowRenderer } from './arrow';
+
+export type DropdownCreateElement = typeof h;
+export type DropdownTemplate = (createElement: DropdownCreateElement, item: any) => ReturnType<DropdownCreateElement>;
 
 @Component({
   tag: 'revo-dropdown',
@@ -73,14 +76,18 @@ export class RevoDropdown {
   @Prop() hasFilter: boolean = true;
 
   @Prop() autocomplete: boolean = false;
+  /**
+   * Animate dropdown open transition
+   */
+  @Prop() animation: boolean = true;
   @Prop() autoFocus: boolean = false;
 
   /**
    * Define your own vnode template
    * @example
-   * <revo-dropdown template={(h, item) => h('span', null, item.label)} />
+   * <revo-dropdown template={(createElement, item) => createElement('span', null, item.label)} />
    */
-  @Prop() template?: (h: Function, item: any) => VNode;
+  @Prop() template?: DropdownTemplate;
 
   // --------------------------------------------------------------------------
   //
@@ -90,16 +97,16 @@ export class RevoDropdown {
   /**
    * When value changed
    */
-  @Event({ eventName: 'changed' }) changeValue: EventEmitter<{ val: any; originalEvent?: MouseEvent }>;
+  @StencilEvent({ eventName: 'changed' }) changeValue: EventEmitter<{ val: any; originalEvent?: globalThis.Event }>;
   /**
    * Before element close, can be prevented
    */
-  @Event() close: EventEmitter;
+  @StencilEvent() close: EventEmitter;
 
   /**
    * Before element open, can be prevented
    */
-  @Event() open: EventEmitter;
+  @StencilEvent() open: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -128,17 +135,19 @@ export class RevoDropdown {
     if (event.defaultPrevented) {
       return;
     }
+    this.isClosing = false;
+    this.currentSource = this.currentSource || this.source;
     this.isVisible = true;
   }
 
   /**
    * Change value
    */
-  @Method() async doChange(val: any, originalEvent?: MouseEvent): Promise<void> {
+  @Method() async doChange(val: any, originalEvent?: globalThis.Event): Promise<void> {
     this.value = getItemValue(val, this.dataId);
     this.changeValue.emit({ val: this.value, originalEvent });
     if (this.autocompleteInput) {
-      this.autocompleteInput.value = getItemLabel(this.currentItem, this.dataLabel);
+      this.autocompleteInput.value = String(getItemLabel(val, this.dataLabel));
     }
     if (this.autoClose && this.isVisible) {
       this.doClose();
@@ -163,6 +172,9 @@ export class RevoDropdown {
   }
 
   @Listen('keydown', { target: 'document' }) onKey(e: KeyboardEvent) {
+    if (!this.isVisible) {
+      return;
+    }
     switch (e.code) {
       case 'Escape':
         e.preventDefault();
@@ -250,7 +262,14 @@ export class RevoDropdown {
 
   private renderDropdown() {
     return (
-      <div class="revo-dropdown-list" ref={e => (this.dropdown = e)}>
+      <div
+        class={{
+          'revo-dropdown-list': true,
+          animated: this.animation,
+          'no-animation': !this.animation,
+        }}
+        ref={e => (this.dropdown = e)}
+      >
         <div {...{ [UUID]: this.uuid }} class="dropdown-inner" ref={e => (this.dropdownInner = e)}>
           {this.hasFilter && !this.autocomplete ? (
             <DropdownListFilter
@@ -272,7 +291,7 @@ export class RevoDropdown {
             ref={e => (this.revoList = e)}
             isFocused={true}
             selectedIndex={this.getValueIndex(this.value)}
-            sourceItems={this.currentSource}
+            sourceItems={this.currentSource || this.source}
             onChanged={e => this.doChange(e.detail.item, e.detail.e)}
             template={item => (this.template ? this.template(h, item) : getItemLabel(item, this.dataLabel))}
           />
@@ -347,6 +366,7 @@ export class RevoDropdown {
   }
 
   private showAutoComplete() {
+    this.currentSource = this.currentSource || this.source;
     if (!this.isVisible && !this.isClosing) {
       this.isVisible = true;
     }
@@ -375,7 +395,7 @@ export class RevoDropdown {
     return null;
   }
 
-  private selectClick(e: Event) {
+  private selectClick(e: globalThis.Event) {
     if (e.defaultPrevented) {
       return;
     }

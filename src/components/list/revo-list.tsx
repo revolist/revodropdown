@@ -1,4 +1,4 @@
-import { Component, h, Prop, Event, EventEmitter, Method, Listen, State, Watch, VNode } from '@stencil/core';
+import { Component, h, Prop, Event, EventEmitter, Method, Listen, State, Watch } from '@stencil/core';
 
 @Component({ tag: 'revo-list', styleUrl: 'revo-list.style.scss' })
 export class RevoDropdownList {
@@ -15,26 +15,27 @@ export class RevoDropdownList {
    */
   @Prop() selectedIndex = 0;
 
-  @Prop() template!: (item: any) => VNode;
+  @Prop() template!: (item: any) => unknown;
 
-  @Event({ bubbles: false }) changed: EventEmitter<{ item: any; e: any }>;
+  @Event({ bubbles: false }) changed: EventEmitter<{ item: any; e: globalThis.Event }>;
 
   @Method() async moveSelection(step: number) {
+    const sourceItems = this.sourceItems || [];
     const nextIndex = this.currentItem + step;
-    if (nextIndex < 0 || nextIndex >= this.sourceItems.length) {
+    if (nextIndex < 0 || nextIndex >= sourceItems.length) {
       return;
     }
     this.currentItem = nextIndex;
   }
 
-  @Method() async selectCurrent(e: KeyboardEvent) {
-    const item = this.sourceItems[this.currentItem];
+  @Method() async selectCurrent(e: globalThis.Event) {
+    const item = (this.sourceItems || [])[this.currentItem];
     if (item) {
       this.changed.emit({ item, e });
     }
   }
 
-  /** Recived keyboard down from element */
+  /** Keep keyboard selection active while the dropdown owns focus. */
   @Listen('keydown', { target: 'document' }) onKey(e: KeyboardEvent) {
     if (!this.isFocused) {
       return;
@@ -81,8 +82,9 @@ export class RevoDropdownList {
   render() {
     this.selectedEl = undefined;
     const items = [];
-    for (let i in this.sourceItems) {
-      const item = this.sourceItems[i];
+    const sourceItems = this.sourceItems || [];
+    for (let i in sourceItems) {
+      const item = sourceItems[i];
       const isSelected = parseInt(i) === this.currentItem;
       const props = {
         class: { selected: isSelected },

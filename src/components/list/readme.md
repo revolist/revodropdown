@@ -5,19 +5,19 @@
 
 ## Properties
 
-| Property                | Attribute        | Description                        | Type                   | Default     |
-| ----------------------- | ---------------- | ---------------------------------- | ---------------------- | ----------- |
-| `isFocused`             | `is-focused`     |                                    | `boolean`              | `false`     |
-| `selectedIndex`         | `selected-index` | Selected Value Index               | `number`               | `0`         |
-| `sourceItems`           | --               | Define object mapping for id/value | `any[]`                | `[]`        |
-| `template` _(required)_ | --               |                                    | `(item: any) => VNode` | `undefined` |
+| Property                | Attribute        | Description                        | Type                     | Default     |
+| ----------------------- | ---------------- | ---------------------------------- | ------------------------ | ----------- |
+| `isFocused`             | `is-focused`     |                                    | `boolean`                | `false`     |
+| `selectedIndex`         | `selected-index` | Selected Value Index               | `number`                 | `0`         |
+| `sourceItems`           | --               | Define object mapping for id/value | `any[]`                  | `[]`        |
+| `template` _(required)_ | --               |                                    | `(item: any) => unknown` | `undefined` |
 
 
 ## Events
 
-| Event     | Description | Type                                  |
-| --------- | ----------- | ------------------------------------- |
-| `changed` |             | `CustomEvent<{ item: any; e: any; }>` |
+| Event     | Description | Type                                    |
+| --------- | ----------- | --------------------------------------- |
+| `changed` |             | `CustomEvent<{ item: any; e: Event; }>` |
 
 
 ## Methods
@@ -54,15 +54,15 @@ Type: `Promise<void>`
 
 
 
-### `selectCurrent(e: KeyboardEvent) => Promise<void>`
+### `selectCurrent(e: globalThis.Event) => Promise<void>`
 
 
 
 #### Parameters
 
-| Name | Type            | Description |
-| ---- | --------------- | ----------- |
-| `e`  | `KeyboardEvent` |             |
+| Name | Type    | Description |
+| ---- | ------- | ----------- |
+| `e`  | `Event` |             |
 
 #### Returns
 

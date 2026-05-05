@@ -5,10 +5,15 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { VNode } from "@stencil/core";
-export { VNode } from "@stencil/core";
+import { DropdownTemplate } from "./components/dropdown/revo-dropdown";
+export { DropdownTemplate } from "./components/dropdown/revo-dropdown";
 export namespace Components {
     interface RevoDropdown {
+        /**
+          * Animate dropdown open transition
+          * @default true
+         */
+        "animation": boolean;
         /**
           * Where to append element
           * @default 'body'
@@ -42,7 +47,7 @@ export namespace Components {
         /**
           * Change value
          */
-        "doChange": (val: any, originalEvent?: MouseEvent) => Promise<void>;
+        "doChange": (val: any, originalEvent?: globalThis.Event) => Promise<void>;
         /**
           * Close dropdown
          */
@@ -72,9 +77,9 @@ export namespace Components {
         "source": any[];
         /**
           * Define your own vnode template
-          * @example <revo-dropdown template={(h, item) => h('span', null, item.label)} />
+          * @example <revo-dropdown template={(createElement, item) => createElement('span', null, item.label)} />
          */
-        "template"?: (h: Function, item: any) => VNode;
+        "template"?: DropdownTemplate;
         /**
           * Selected value
          */
@@ -87,7 +92,7 @@ export namespace Components {
         "isFocused": boolean;
         "moveSelection": (step: number) => Promise<void>;
         "refresh": (source: any[]) => Promise<void>;
-        "selectCurrent": (e: KeyboardEvent) => Promise<void>;
+        "selectCurrent": (e: globalThis.Event) => Promise<void>;
         /**
           * Selected Value Index
           * @default 0
@@ -98,7 +103,7 @@ export namespace Components {
           * @default []
          */
         "sourceItems": any[];
-        "template": (item: any) => VNode;
+        "template": (item: any) => unknown;
     }
 }
 export interface RevoDropdownCustomEvent<T> extends CustomEvent<T> {
@@ -111,7 +116,7 @@ export interface RevoListCustomEvent<T> extends CustomEvent<T> {
 }
 declare global {
     interface HTMLRevoDropdownElementEventMap {
-        "changed": { val: any; originalEvent?: MouseEvent };
+        "changed": { val: any; originalEvent?: globalThis.Event };
         "close": any;
         "open": any;
     }
@@ -130,7 +135,7 @@ declare global {
         new (): HTMLRevoDropdownElement;
     };
     interface HTMLRevoListElementEventMap {
-        "changed": { item: any; e: any };
+        "changed": { item: any; e: globalThis.Event };
     }
     interface HTMLRevoListElement extends Components.RevoList, HTMLStencilElement {
         addEventListener<K extends keyof HTMLRevoListElementEventMap>(type: K, listener: (this: HTMLRevoListElement, ev: RevoListCustomEvent<HTMLRevoListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -153,6 +158,11 @@ declare global {
 }
 declare namespace LocalJSX {
     interface RevoDropdown {
+        /**
+          * Animate dropdown open transition
+          * @default true
+         */
+        "animation"?: boolean;
         /**
           * Where to append element
           * @default 'body'
@@ -195,7 +205,7 @@ declare namespace LocalJSX {
         /**
           * When value changed
          */
-        "onChanged"?: (event: RevoDropdownCustomEvent<{ val: any; originalEvent?: MouseEvent }>) => void;
+        "onChanged"?: (event: RevoDropdownCustomEvent<{ val: any; originalEvent?: globalThis.Event }>) => void;
         /**
           * Before element close, can be prevented
          */
@@ -216,9 +226,9 @@ declare namespace LocalJSX {
         "source"?: any[];
         /**
           * Define your own vnode template
-          * @example <revo-dropdown template={(h, item) => h('span', null, item.label)} />
+          * @example <revo-dropdown template={(createElement, item) => createElement('span', null, item.label)} />
          */
-        "template"?: (h: Function, item: any) => VNode;
+        "template"?: DropdownTemplate;
         /**
           * Selected value
          */
@@ -229,7 +239,7 @@ declare namespace LocalJSX {
           * @default false
          */
         "isFocused"?: boolean;
-        "onChanged"?: (event: RevoListCustomEvent<{ item: any; e: any }>) => void;
+        "onChanged"?: (event: RevoListCustomEvent<{ item: any; e: globalThis.Event }>) => void;
         /**
           * Selected Value Index
           * @default 0
@@ -240,7 +250,7 @@ declare namespace LocalJSX {
           * @default []
          */
         "sourceItems"?: any[];
-        "template": (item: any) => VNode;
+        "template": (item: any) => unknown;
     }
 
     interface RevoDropdownAttributes {
@@ -255,6 +265,7 @@ declare namespace LocalJSX {
         "maxHeight": number;
         "hasFilter": boolean;
         "autocomplete": boolean;
+        "animation": boolean;
         "autoFocus": boolean;
     }
     interface RevoListAttributes {

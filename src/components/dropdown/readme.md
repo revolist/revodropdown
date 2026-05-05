@@ -5,45 +5,46 @@
 
 ## Properties
 
-| Property        | Attribute        | Description                              | Type                                | Default     |
-| --------------- | ---------------- | ---------------------------------------- | ----------------------------------- | ----------- |
-| `appendTo`      | `append-to`      | Where to append element                  | `string`                            | `'body'`    |
-| `autoClose`     | `auto-close`     | Should dropdown autoclose on changeValue | `boolean`                           | `true`      |
-| `autoFocus`     | `auto-focus`     |                                          | `boolean`                           | `false`     |
-| `autocomplete`  | `autocomplete`   |                                          | `boolean`                           | `false`     |
-| `currentFilter` | `current-filter` | Filter value                             | `any`                               | `undefined` |
-| `dataId`        | `data-id`        | Define object mapping for id/value       | `string`                            | `undefined` |
-| `dataLabel`     | `data-label`     | Define object mapping for labels         | `string`                            | `undefined` |
-| `filter`        | `filter`         | Filter criteria                          | `"contains" \| "start"`             | `undefined` |
-| `hasFilter`     | `has-filter`     |                                          | `boolean`                           | `true`      |
-| `maxHeight`     | `max-height`     |                                          | `number`                            | `undefined` |
-| `placeholder`   | `placeholder`    | Placeholder text                         | `string`                            | `'Select'`  |
-| `source`        | --               | Define object mapping for id/value       | `any[]`                             | `[]`        |
-| `template`      | --               | Define your own vnode template           | `(h: Function, item: any) => VNode` | `undefined` |
-| `value`         | `value`          | Selected value                           | `any`                               | `undefined` |
+| Property        | Attribute        | Description                              | Type                                            | Default     |
+| --------------- | ---------------- | ---------------------------------------- | ----------------------------------------------- | ----------- |
+| `animation`     | `animation`      | Animate dropdown open transition         | `boolean`                                       | `true`      |
+| `appendTo`      | `append-to`      | Where to append element                  | `string`                                        | `'body'`    |
+| `autoClose`     | `auto-close`     | Should dropdown autoclose on changeValue | `boolean`                                       | `true`      |
+| `autoFocus`     | `auto-focus`     |                                          | `boolean`                                       | `false`     |
+| `autocomplete`  | `autocomplete`   |                                          | `boolean`                                       | `false`     |
+| `currentFilter` | `current-filter` | Filter value                             | `any`                                           | `undefined` |
+| `dataId`        | `data-id`        | Define object mapping for id/value       | `string`                                        | `undefined` |
+| `dataLabel`     | `data-label`     | Define object mapping for labels         | `string`                                        | `undefined` |
+| `filter`        | `filter`         | Filter criteria                          | `"contains" \| "start"`                         | `undefined` |
+| `hasFilter`     | `has-filter`     |                                          | `boolean`                                       | `true`      |
+| `maxHeight`     | `max-height`     |                                          | `number`                                        | `undefined` |
+| `placeholder`   | `placeholder`    | Placeholder text                         | `string`                                        | `'Select'`  |
+| `source`        | --               | Define object mapping for id/value       | `any[]`                                         | `[]`        |
+| `template`      | --               | Define your own vnode template           | `(createElement: typeof h, item: any) => VNode` | `undefined` |
+| `value`         | `value`          | Selected value                           | `any`                                           | `undefined` |
 
 
 ## Events
 
-| Event     | Description                            | Type                                                     |
-| --------- | -------------------------------------- | -------------------------------------------------------- |
-| `changed` | When value changed                     | `CustomEvent<{ val: any; originalEvent?: MouseEvent; }>` |
-| `close`   | Before element close, can be prevented | `CustomEvent<any>`                                       |
-| `open`    | Before element open, can be prevented  | `CustomEvent<any>`                                       |
+| Event     | Description                            | Type                                                |
+| --------- | -------------------------------------- | --------------------------------------------------- |
+| `changed` | When value changed                     | `CustomEvent<{ val: any; originalEvent?: Event; }>` |
+| `close`   | Before element close, can be prevented | `CustomEvent<any>`                                  |
+| `open`    | Before element open, can be prevented  | `CustomEvent<any>`                                  |
 
 
 ## Methods
 
-### `doChange(val: any, originalEvent?: MouseEvent) => Promise<void>`
+### `doChange(val: any, originalEvent?: globalThis.Event) => Promise<void>`
 
 Change value
 
 #### Parameters
 
-| Name            | Type         | Description |
-| --------------- | ------------ | ----------- |
-| `val`           | `any`        |             |
-| `originalEvent` | `MouseEvent` |             |
+| Name            | Type    | Description |
+| --------------- | ------- | ----------- |
+| `val`           | `any`   |             |
+| `originalEvent` | `Event` |             |
 
 #### Returns
 
