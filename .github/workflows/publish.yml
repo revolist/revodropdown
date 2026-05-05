@@ -6,7 +6,10 @@ on:
     types: [created]
 
 
-permissions: write-all
+permissions:
+  contents: read
+  packages: write
+  id-token: write
 
 concurrency:
   group: publish-revo-dropdown
