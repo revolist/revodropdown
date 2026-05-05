@@ -34,11 +34,11 @@ revo-list {
     cursor: pointer;
 
     &.selected {
-      background-color: $hv-color;
+      background-color: var(--rv-dropdown-hover, #{$hv-color});
     }
 
     &:hover {
-      background-color: $hv-color;
+      background-color: var(--rv-dropdown-hover, #{$hv-color});
     }
   }
 }
