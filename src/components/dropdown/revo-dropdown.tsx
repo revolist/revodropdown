@@ -419,6 +419,7 @@ export class RevoDropdown {
     if (!this.dropdown) {
       return;
     }
+    this.syncThemeVariables();
     const { top, left, height } = this.element.getBoundingClientRect();
     const visibleRect = this.clientRectangle();
     let currentTop = top + height + visibleRect.top;
@@ -461,6 +462,27 @@ export class RevoDropdown {
     for (let s in style) {
       this.dropdown.style[s] = style[s];
     }
+  }
+
+  private syncThemeVariables() {
+    if (!this.element || !this.dropdown) {
+      return;
+    }
+
+    const style = getComputedStyle(this.element);
+    const cssVar = (name: string) => style.getPropertyValue(name).trim();
+    const setDropdownVar = (name: string, ...fallbacks: string[]) => {
+      const value = cssVar(name) || fallbacks.map(cssVar).find(Boolean);
+      if (value) {
+        this.dropdown.style.setProperty(name, value);
+      }
+    };
+
+    setDropdownVar('--rv-dropdown-bg', '--revo-grid-background');
+    setDropdownVar('--rv-dropdown-color', '--revo-grid-text');
+    setDropdownVar('--rv-dropdown-border', '--revo-grid-cell-border', '--revo-grid-border');
+    setDropdownVar('--rv-dropdown-input-bg', '--revo-grid-filter-panel-input-bg', '--revo-grid-background');
+    setDropdownVar('--rv-dropdown-hover', '--revo-grid-row-hover', '--revo-grid-focused-bg');
   }
 
   private clientRectangle() {
