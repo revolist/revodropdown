@@ -184,19 +184,24 @@ export class RevoDropdown {
   }
 
   @Watch('value') onValueChanged(newVal: any) {
-    this.currentItem = this.getValue(newVal);
+    this.setCurrentItem(newVal);
+  }
+
+  @Watch('source') onSourceChanged() {
+    this.setCurrentItem(this.value);
+    if (!this.currentSource || !this.currentFilter) {
+      this.currentSource = this.source;
+    }
   }
 
   componentWillLoad() {
-    if (this.value) {
-      this.currentItem = this.value;
-    }
+    this.setCurrentItem(this.value);
   }
 
   connectedCallback() {
     this.uuid = `${this.uuidv4(new Date().getTime())}-rvdropdown`;
     if (typeof this.value !== 'undefined') {
-      this.onValueChanged(this.value);
+      this.setCurrentItem(this.value);
     }
   }
 
@@ -393,6 +398,10 @@ export class RevoDropdown {
       }
     }
     return null;
+  }
+
+  private setCurrentItem(value: any) {
+    this.currentItem = this.getValue(value);
   }
 
   private selectClick(e: globalThis.Event) {
