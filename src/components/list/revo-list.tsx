@@ -1,4 +1,4 @@
-import { Component, h, Prop, Event, EventEmitter, Method, Listen, State, Watch, VNode } from '@stencil/core';
+import { Component, h, Prop, Event, EventEmitter, Method, Listen, State, Watch } from '@stencil/core';
 
 @Component({ tag: 'revo-list', styleUrl: 'revo-list.style.scss' })
 export class RevoDropdownList {
@@ -15,43 +15,44 @@ export class RevoDropdownList {
    */
   @Prop() selectedIndex = 0;
 
-  @Prop() template!: (item: any) => VNode;
+  @Prop() template!: (item: any) => unknown;
 
   @Event({ bubbles: false }) changed: EventEmitter<{ item: any; e: any }>;
 
-  /** Recived keyboard down from element */
+  @Method() async moveSelection(offset: number) {
+    const items = this.sourceItems || [];
+    const nextItem = this.currentItem + offset;
+    if (nextItem < 0 || nextItem >= items.length) {
+      return;
+    }
+    this.currentItem = nextItem;
+  }
+
+  @Method() async selectCurrent(e: globalThis.Event) {
+    const item = (this.sourceItems || [])[this.currentItem];
+    if (item) {
+      this.changed.emit({ item, e });
+    }
+  }
+
+  /** Keep keyboard selection active while the dropdown owns focus. */
   @Listen('keydown', { target: 'document' }) onKey(e: KeyboardEvent) {
-    let item: any;
     if (!this.isFocused) {
       return;
     }
     switch (e.code) {
       case 'ArrowUp':
         e.preventDefault();
-        if (this.currentItem <= 0) {
-          return;
-        }
-        this.currentItem--;
+        this.moveSelection(-1);
         break;
       case 'ArrowDown':
         e.preventDefault();
-        if (this.sourceItems[this.currentItem + 1]) {
-          this.currentItem++;
-        }
+        this.moveSelection(1);
         break;
       case 'Tab':
-        e.preventDefault();
-        item = this.sourceItems[this.currentItem];
-        if (item) {
-          this.changed.emit({ item, e });
-        }
-        break;
       case 'Enter':
         e.preventDefault();
-        item = this.sourceItems[this.currentItem];
-        if (item) {
-          this.changed.emit({ item, e });
-        }
+        this.selectCurrent(e);
         break;
     }
   }
@@ -78,8 +79,9 @@ export class RevoDropdownList {
   render() {
     this.selectedEl = undefined;
     const items = [];
-    for (let i in this.sourceItems) {
-      const item = this.sourceItems[i];
+    const sourceItems = this.sourceItems || [];
+    for (let i in sourceItems) {
+      const item = sourceItems[i];
       const isSelected = parseInt(i) === this.currentItem;
       const props = {
         class: { selected: isSelected },

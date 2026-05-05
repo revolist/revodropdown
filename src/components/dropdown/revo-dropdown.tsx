@@ -1,4 +1,4 @@
-import { Component, Prop, h, VNode, State, Listen, Event, EventEmitter, Method, Watch, Host } from '@stencil/core';
+import { Component, Prop, h, VNode, State, Listen, Event as StencilEvent, EventEmitter, Method, Watch, Host } from '@stencil/core';
 import '../../utils/closestPolifill';
 import { UUID } from '../../utils/consts';
 import { getItemLabel, getItemValue } from '../../utils/item.helpers';
@@ -73,14 +73,21 @@ export class RevoDropdown {
   @Prop() hasFilter: boolean = true;
 
   @Prop() autocomplete: boolean = false;
+  /**
+   * Animate dropdown open transition
+   */
+  @Prop() animation: boolean = true;
   @Prop() autoFocus: boolean = false;
 
   /**
    * Define your own vnode template
    * @example
-   * <revo-dropdown template={(h, item) => h('span', null, item.label)} />
+   * <revo-dropdown template={(createElement, item) => createElement('span', null, item.label)} />
    */
-  @Prop() template?: (h: Function, item: any) => VNode;
+  @Prop() template?: (
+    createElement: (tag: string | Function, data?: Record<string, any> | null, ...children: any[]) => unknown,
+    item: any,
+  ) => unknown;
 
   // --------------------------------------------------------------------------
   //
@@ -90,16 +97,16 @@ export class RevoDropdown {
   /**
    * When value changed
    */
-  @Event({ eventName: 'changed' }) changeValue: EventEmitter<{ val: any; originalEvent?: MouseEvent }>;
+  @StencilEvent({ eventName: 'changed' }) changeValue: EventEmitter<{ val: any; originalEvent?: Event }>;
   /**
    * Before element close, can be prevented
    */
-  @Event() close: EventEmitter;
+  @StencilEvent() close: EventEmitter;
 
   /**
    * Before element open, can be prevented
    */
-  @Event() open: EventEmitter;
+  @StencilEvent() open: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -128,17 +135,19 @@ export class RevoDropdown {
     if (event.defaultPrevented) {
       return;
     }
+    this.isClosing = false;
+    this.currentSource = this.currentSource || this.source;
     this.isVisible = true;
   }
 
   /**
    * Change value
    */
-  @Method() async doChange(val: any, originalEvent?: MouseEvent): Promise<void> {
+  @Method() async doChange(val: any, originalEvent?: Event): Promise<void> {
     this.value = getItemValue(val, this.dataId);
     this.changeValue.emit({ val: this.value, originalEvent });
     if (this.autocompleteInput) {
-      this.autocompleteInput.value = getItemLabel(this.currentItem, this.dataLabel);
+      this.autocompleteInput.value = getItemLabel(val, this.dataLabel) as string;
     }
     if (this.autoClose && this.isVisible) {
       this.doClose();
@@ -163,6 +172,9 @@ export class RevoDropdown {
   }
 
   @Listen('keydown', { target: 'document' }) onKey(e: KeyboardEvent) {
+    if (!this.isVisible) {
+      return;
+    }
     switch (e.code) {
       case 'Escape':
         e.preventDefault();
@@ -197,7 +209,7 @@ export class RevoDropdown {
       if (this.appendTo === 'body') {
         document.body.appendChild(this.dropdown);
       } else if (this.appendTo !== 'current' && typeof this.appendTo === 'string') {
-        const el: HTMLElement = document.querySelector(this.appendTo);
+        const el = document.querySelector(this.appendTo);
         if (el instanceof HTMLElement) {
           el.appendChild(this.dropdown);
         }
@@ -216,9 +228,50 @@ export class RevoDropdown {
     }
   }
 
+  private onInputKeyDown(e: KeyboardEvent) {
+    if (this.isVisible) {
+      // Keep list navigation working while keyboard focus is inside the filter input.
+      switch (e.code) {
+        case 'ArrowUp':
+          e.preventDefault();
+          e.stopPropagation();
+          this.revoList?.moveSelection(-1);
+          break;
+        case 'ArrowDown':
+          e.preventDefault();
+          e.stopPropagation();
+          this.revoList?.moveSelection(1);
+          break;
+        case 'Tab':
+        case 'Enter':
+          e.preventDefault();
+          e.stopPropagation();
+          this.revoList?.selectCurrent(e);
+          break;
+      }
+      return;
+    }
+
+    switch (e.code) {
+      case 'ArrowUp':
+      case 'ArrowDown':
+        e.preventDefault();
+        this.showAutoComplete();
+        break;
+    }
+  }
+
   private renderDropdown() {
     return (
-      <div class="revo-dropdown-list" ref={e => (this.dropdown = e)}>
+      <div
+        class={{
+          'revo-dropdown-list': true,
+          autocomplete: this.autocomplete,
+          animated: this.animation,
+          'no-animation': !this.animation,
+        }}
+        ref={e => (this.dropdown = e)}
+      >
         <div {...{ [UUID]: this.uuid }} class="dropdown-inner" ref={e => (this.dropdownInner = e)}>
           {this.hasFilter && !this.autocomplete ? (
             <DropdownListFilter
@@ -228,6 +281,7 @@ export class RevoDropdown {
               dataLabel={this.dataLabel}
               value={this.currentFilter || ''}
               filterValue={this.currentFilter || ''}
+              onKeyDown={e => this.onInputKeyDown(e)}
               onFilterChange={e => {
                 this.currentFilter = e.value;
                 this.currentSource = e.items;
@@ -239,7 +293,7 @@ export class RevoDropdown {
             ref={e => (this.revoList = e)}
             isFocused={true}
             selectedIndex={this.getValueIndex(this.value)}
-            sourceItems={this.currentSource}
+            sourceItems={this.currentSource || this.source}
             onChanged={e => this.doChange(e.detail.item, e.detail.e)}
             template={item => (this.template ? this.template(h, item) : getItemLabel(item, this.dataLabel))}
           />
@@ -264,18 +318,7 @@ export class RevoDropdown {
         dataLabel={this.dataLabel}
         value={val}
         filterValue={this.currentFilter}
-        onKeyDown={e => {
-          if (this.isVisible) {
-            return;
-          }
-          switch (e.code) {
-            case 'ArrowUp':
-            case 'ArrowDown':
-              e.preventDefault();
-              this.showAutoComplete();
-              break;
-          }
-        }}
+        onKeyDown={e => this.onInputKeyDown(e)}
         onInput={() => this.showAutoComplete()}
         onFocus={() => this.showAutoComplete()}
         onClick={() => this.showAutoComplete()}
@@ -333,8 +376,7 @@ export class RevoDropdown {
 
   private getValueIndex(newVal: any) {
     let i = 0;
-    for (let index in this.source) {
-      const item = this.source[index];
+    for (let item of this.source || []) {
       if (newVal == getItemValue(item, this.dataId)) {
         return i;
       }
@@ -344,8 +386,7 @@ export class RevoDropdown {
   }
 
   private getValue(newVal: any) {
-    for (let index in this.source) {
-      const item = this.source[index];
+    for (let item of this.source || []) {
       if (newVal == getItemValue(item, this.dataId)) {
         return item;
       }

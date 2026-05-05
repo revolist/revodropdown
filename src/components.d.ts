@@ -5,14 +5,16 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { VNode } from "@stencil/core";
-export { VNode } from "@stencil/core";
 export namespace Components {
     interface RevoDropdown {
         /**
+          * Animate dropdown open transition
+         */
+        "animation": boolean;
+        /**
           * Where to append element
          */
-        "appendTo": 'body' | 'current';
+        "appendTo": 'body' | 'current' | string;
         /**
           * Should dropdown autoclose on changeValue
          */
@@ -34,7 +36,7 @@ export namespace Components {
         /**
           * Change value
          */
-        "doChange": (val: any, originalEvent?: MouseEvent) => Promise<void>;
+        "doChange": (val: any, originalEvent?: Event) => Promise<void>;
         /**
           * Close dropdown
          */
@@ -59,9 +61,12 @@ export namespace Components {
         "source": any[];
         /**
           * Define your own vnode template
-          * @example <revo-dropdown template={(h, item) => h('span', null, item.label)} />
+          * @example <revo-dropdown template={(createElement, item) => createElement('span', null, item.label)} />
          */
-        "template"?: (h: Function, item: any) => VNode;
+        "template"?: (
+    createElement: (tag: string | Function, data?: Record<string, any> | null, ...children: any[]) => unknown,
+    item: any,
+  ) => unknown;
         /**
           * Selected value
          */
@@ -69,7 +74,9 @@ export namespace Components {
     }
     interface RevoList {
         "isFocused": boolean;
+        "moveSelection": (offset: number) => Promise<void>;
         "refresh": (source: any[]) => Promise<void>;
+        "selectCurrent": (e: globalThis.Event) => Promise<void>;
         /**
           * Selected Value Index
          */
@@ -78,7 +85,7 @@ export namespace Components {
           * Define object mapping for id/value
          */
         "sourceItems": any[];
-        "template": (item: any) => VNode;
+        "template": (item: any) => unknown;
     }
 }
 export interface RevoDropdownCustomEvent<T> extends CustomEvent<T> {
@@ -91,7 +98,7 @@ export interface RevoListCustomEvent<T> extends CustomEvent<T> {
 }
 declare global {
     interface HTMLRevoDropdownElementEventMap {
-        "changed": { val: any; originalEvent?: MouseEvent };
+        "changed": { val: any; originalEvent?: Event };
         "close": any;
         "open": any;
     }
@@ -134,9 +141,13 @@ declare global {
 declare namespace LocalJSX {
     interface RevoDropdown {
         /**
+          * Animate dropdown open transition
+         */
+        "animation"?: boolean;
+        /**
           * Where to append element
          */
-        "appendTo"?: 'body' | 'current';
+        "appendTo"?: 'body' | 'current' | string;
         /**
           * Should dropdown autoclose on changeValue
          */
@@ -164,7 +175,7 @@ declare namespace LocalJSX {
         /**
           * When value changed
          */
-        "onChanged"?: (event: RevoDropdownCustomEvent<{ val: any; originalEvent?: MouseEvent }>) => void;
+        "onChanged"?: (event: RevoDropdownCustomEvent<{ val: any; originalEvent?: Event }>) => void;
         /**
           * Before element close, can be prevented
          */
@@ -183,9 +194,12 @@ declare namespace LocalJSX {
         "source"?: any[];
         /**
           * Define your own vnode template
-          * @example <revo-dropdown template={(h, item) => h('span', null, item.label)} />
+          * @example <revo-dropdown template={(createElement, item) => createElement('span', null, item.label)} />
          */
-        "template"?: (h: Function, item: any) => VNode;
+        "template"?: (
+    createElement: (tag: string | Function, data?: Record<string, any> | null, ...children: any[]) => unknown,
+    item: any,
+  ) => unknown;
         /**
           * Selected value
          */
@@ -202,7 +216,7 @@ declare namespace LocalJSX {
           * Define object mapping for id/value
          */
         "sourceItems"?: any[];
-        "template": (item: any) => VNode;
+        "template": (item: any) => unknown;
     }
     interface IntrinsicElements {
         "revo-dropdown": RevoDropdown;

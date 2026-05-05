@@ -5,12 +5,12 @@
 
 ## Properties
 
-| Property                | Attribute        | Description                        | Type                   | Default     |
-| ----------------------- | ---------------- | ---------------------------------- | ---------------------- | ----------- |
-| `isFocused`             | `is-focused`     |                                    | `boolean`              | `false`     |
-| `selectedIndex`         | `selected-index` | Selected Value Index               | `number`               | `0`         |
-| `sourceItems`           | --               | Define object mapping for id/value | `any[]`                | `[]`        |
-| `template` _(required)_ | --               |                                    | `(item: any) => VNode` | `undefined` |
+| Property                | Attribute        | Description                        | Type                     | Default     |
+| ----------------------- | ---------------- | ---------------------------------- | ------------------------ | ----------- |
+| `isFocused`             | `is-focused`     |                                    | `boolean`                | `false`     |
+| `selectedIndex`         | `selected-index` | Selected Value Index               | `number`                 | `0`         |
+| `sourceItems`           | --               | Define object mapping for id/value | `any[]`                  | `[]`        |
+| `template` _(required)_ | --               |                                    | `(item: any) => unknown` | `undefined` |
 
 
 ## Events
@@ -22,6 +22,22 @@
 
 ## Methods
 
+### `moveSelection(offset: number) => Promise<void>`
+
+
+
+#### Parameters
+
+| Name     | Type     | Description |
+| -------- | -------- | ----------- |
+| `offset` | `number` |             |
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 ### `refresh(source: any[]) => Promise<void>`
 
 
@@ -31,6 +47,22 @@
 | Name     | Type    | Description |
 | -------- | ------- | ----------- |
 | `source` | `any[]` |             |
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+### `selectCurrent(e: globalThis.Event) => Promise<void>`
+
+
+
+#### Parameters
+
+| Name | Type    | Description |
+| ---- | ------- | ----------- |
+| `e`  | `Event` |             |
 
 #### Returns
 
