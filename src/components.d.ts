@@ -71,6 +71,11 @@ export namespace Components {
          */
         "placeholder": string;
         /**
+          * Define a vnode template for the selected value. The option `template` remains list-only for backward compatibility.
+          * @example <revo-dropdown selectedTemplate={(createElement, item) => createElement('span', null, item.label)} />
+         */
+        "selectedTemplate"?: DropdownTemplate;
+        /**
           * Define object mapping for id/value
           * @default []
          */
@@ -219,6 +224,11 @@ declare namespace LocalJSX {
           * @default 'Select'
          */
         "placeholder"?: string;
+        /**
+          * Define a vnode template for the selected value. The option `template` remains list-only for backward compatibility.
+          * @example <revo-dropdown selectedTemplate={(createElement, item) => createElement('span', null, item.label)} />
+         */
+        "selectedTemplate"?: DropdownTemplate;
         /**
           * Define object mapping for id/value
           * @default []

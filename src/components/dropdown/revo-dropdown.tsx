@@ -88,6 +88,13 @@ export class RevoDropdown {
    * <revo-dropdown template={(createElement, item) => createElement('span', null, item.label)} />
    */
   @Prop() template?: DropdownTemplate;
+  /**
+   * Define a vnode template for the selected value.
+   * The option `template` remains list-only for backward compatibility.
+   * @example
+   * <revo-dropdown selectedTemplate={(createElement, item) => createElement('span', null, item.label)} />
+   */
+  @Prop() selectedTemplate?: DropdownTemplate;
 
   // --------------------------------------------------------------------------
   //
@@ -306,6 +313,9 @@ export class RevoDropdown {
   }
 
   renderSelect() {
+    if (this.currentItem && this.selectedTemplate) {
+      return <div class="selected-value">{this.selectedTemplate(h, this.currentItem)}</div>;
+    }
     const val = (this.currentItem && getItemLabel(this.currentItem, this.dataLabel)) || '';
     return <input type="text" disabled class="filter-box" value={val} />;
   }

@@ -67,6 +67,14 @@ revo-dropdown {
     }
   }
 
+  .selected-value {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    min-width: 0;
+    overflow: hidden;
+  }
+
   .actions {
     right: 9px;
     top: calc(50% - $font-size);

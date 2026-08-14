@@ -19,6 +19,7 @@
 | `hasFilter`     | `has-filter`     |                                          | `boolean`                                       | `true`      |
 | `maxHeight`     | `max-height`     |                                          | `number`                                        | `undefined` |
 | `placeholder`   | `placeholder`    | Placeholder text                         | `string`                                        | `'Select'`  |
+| `selectedTemplate` | --              | Define a vnode template for the selected value. The option `template` remains list-only for backward compatibility. | `(createElement: typeof h, item: any) => VNode` | `undefined` |
 | `source`        | --               | Define object mapping for id/value       | `any[]`                                         | `[]`        |
 | `template`      | --               | Define your own vnode template           | `(createElement: typeof h, item: any) => VNode` | `undefined` |
 | `value`         | `value`          | Selected value                           | `any`                                           | `undefined` |
