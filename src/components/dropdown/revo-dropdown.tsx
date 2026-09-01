@@ -241,6 +241,13 @@ export class RevoDropdown {
   }
 
   private onInputKeyDown(e: KeyboardEvent) {
+    // Keep printable input in the filter/autocomplete control. In particular,
+    // Space must not reach document-level keyboard handlers such as RevoGrid's
+    // pending edit input buffer. Do not prevent the browser's text insertion.
+    if (e.key.length === 1) {
+      e.stopPropagation();
+    }
+
     if (!this.isVisible) {
       switch (e.code) {
         case 'ArrowUp':
