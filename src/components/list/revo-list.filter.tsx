@@ -16,17 +16,17 @@ interface Props extends JSXBase.DOMAttributes<HTMLElement> {
   onFilterChange(e: { value?: string; items: any[] }): void;
 }
 
-function doFilter(p: Props, val?: string) {
+export function filterDropdownItems(source: any[], val?: string, dataLabel?: string, filter: Props['filter'] = 'contains') {
   let newSource = [];
   const filterValue = val?.trim()?.toLocaleLowerCase();
   if (!filterValue) {
-    newSource = p.source;
+    newSource = source;
   } else {
-    for (let item of p.source) {
-      let val = getItemLabel(item, p.dataLabel);
+    for (let item of source) {
+      let val = getItemLabel(item, dataLabel);
       if (typeof val === 'string') {
         val = val.toLocaleLowerCase();
-        switch (p.filter) {
+        switch (filter) {
           case 'start':
             if (val.indexOf(filterValue) === 0) {
               newSource.push(item);
@@ -46,19 +46,17 @@ function doFilter(p: Props, val?: string) {
 
 export const DropdownListFilter = (p: Props) => {
   const filterChange = (value?: string) => {
-    const items = doFilter(p, value);
+    const items = filterDropdownItems(p.source, value, p.dataLabel, p.filter);
     p.onFilterChange({ value, items });
   };
 
-  if (!p.filter) {
-    p.filter = 'contains';
-  }
-  filterChange(p.filterValue);
   if (p.autocomplete) {
     p.value = p.filterValue;
   }
   return (
-    <input class={{ 'filter-box': true, }} type="text"
+    <input
+      class={{ 'filter-box': true }}
+      type="text"
       {...p}
       onClick={e => {
         e.preventDefault();

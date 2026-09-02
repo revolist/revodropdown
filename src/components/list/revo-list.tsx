@@ -7,7 +7,7 @@ export class RevoDropdownList {
   /**
    * Define object mapping for id/value
    */
-  @Prop() sourceItems: any[] = [];
+  @Prop({ mutable: true }) sourceItems: any[] = [];
   @Prop() isFocused: boolean = false;
 
   /**

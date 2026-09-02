@@ -2,7 +2,7 @@ import { Component, Prop, h, VNode, State, Listen, Event as StencilEvent, EventE
 import '../../utils/closestPolifill';
 import { UUID } from '../../utils/consts';
 import { getItemLabel, getItemValue } from '../../utils/item.helpers';
-import { DropdownListFilter } from '../list/revo-list.filter';
+import { DropdownListFilter, filterDropdownItems } from '../list/revo-list.filter';
 import { ArrowRenderer } from './arrow';
 
 export type DropdownCreateElement = typeof h;
@@ -22,6 +22,7 @@ export class RevoDropdown {
   private uuid: string = '';
   private currentSource?: any[];
   private isClosing = false;
+  private isInternalFilterChange = false;
 
   @State() currentItem: any = null;
   @State() isVisible = false;
@@ -196,13 +197,22 @@ export class RevoDropdown {
 
   @Watch('source') onSourceChanged() {
     this.setCurrentItem(this.value);
-    if (!this.currentSource || !this.currentFilter) {
-      this.currentSource = this.source;
+    this.refreshFilteredSource(this.currentFilter);
+  }
+
+  @Watch('currentFilter') onCurrentFilterChanged(newValue: any) {
+    if (!this.isInternalFilterChange) {
+      this.refreshFilteredSource(newValue);
     }
   }
 
   componentWillLoad() {
     this.setCurrentItem(this.value);
+    this.refreshFilteredSource(this.currentFilter);
+  }
+
+  componentShouldUpdate(_newValue: any, _oldValue: any, propName: string) {
+    return !(propName === 'currentFilter' && this.isInternalFilterChange);
   }
 
   connectedCallback() {
@@ -299,11 +309,7 @@ export class RevoDropdown {
               value={this.currentFilter || ''}
               filterValue={this.currentFilter || ''}
               onKeyDown={e => this.onInputKeyDown(e)}
-              onFilterChange={e => {
-                this.currentFilter = e.value;
-                this.currentSource = e.items;
-                this.revoList?.refresh(this.currentSource);
-              }}
+              onFilterChange={e => this.onFilterChange(e)}
             />
           ) : undefined}
           <revo-list
@@ -342,11 +348,7 @@ export class RevoDropdown {
         onInput={() => this.showAutoComplete()}
         onFocus={() => this.showAutoComplete()}
         onClick={() => this.showAutoComplete()}
-        onFilterChange={e => {
-          this.currentFilter = e.value;
-          this.currentSource = e.items;
-          this.revoList?.refresh(this.currentSource);
-        }}
+        onFilterChange={e => this.onFilterChange(e)}
       />
     );
   }
@@ -393,6 +395,23 @@ export class RevoDropdown {
       this.isVisible = true;
     }
     this.isClosing = false;
+  }
+
+  private onFilterChange(e: { value?: string; items: any[] }) {
+    this.currentSource = e.items;
+    this.revoList?.refresh(this.currentSource);
+
+    this.isInternalFilterChange = true;
+    try {
+      this.currentFilter = e.value;
+    } finally {
+      this.isInternalFilterChange = false;
+    }
+  }
+
+  private refreshFilteredSource(value?: string) {
+    this.currentSource = filterDropdownItems(this.source, value, this.dataLabel, this.filter);
+    this.revoList?.refresh(this.currentSource);
   }
 
   private getValueIndex(newVal: any) {
